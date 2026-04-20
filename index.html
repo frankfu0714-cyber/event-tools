@@ -163,26 +163,44 @@
     font-variant-numeric: tabular-nums;
     display: inline-block;
     transform-origin: center;
+    position: relative;   /* keep number above the flash overlay */
+    z-index: 2;
+    transition: color 0.2s ease;
   }
   .picker-num.rolling {
-    animation: pick-pop 0.55s cubic-bezier(.2,.9,.2,1.2);
+    animation: pick-pop 0.75s cubic-bezier(.18,.9,.25,1.35);
   }
   @keyframes pick-pop {
-    0%   { transform: scale(0.4) rotate(-8deg); opacity: 0.1; filter: blur(4px); }
-    40%  { transform: scale(1.22) rotate(3deg); opacity: 1; filter: blur(0); }
-    70%  { transform: scale(0.95) rotate(-1deg); }
-    100% { transform: scale(1) rotate(0deg); }
+    0%   { transform: scale(0.45) rotate(-6deg); opacity: 0.2; filter: blur(3px); }
+    35%  { transform: scale(1.35) rotate(4deg);  opacity: 1;   filter: blur(0); }
+    60%  { transform: scale(0.9)  rotate(-2deg); opacity: 1; }
+    80%  { transform: scale(1.06) rotate(1deg);  opacity: 1; }
+    100% { transform: scale(1)    rotate(0deg);  opacity: 1; }
+  }
+  .picker-num.spinning {
+    color: var(--muted);
+  }
+  .picker-num.spinning.bump {
+    animation: num-drop 0.16s cubic-bezier(.2,.7,.2,1);
+  }
+  @keyframes num-drop {
+    0%   { transform: translateY(-18px) scale(0.92); opacity: 0.15; filter: blur(1.5px); }
+    55%  { transform: translateY(3px)   scale(1.04); opacity: 1;    filter: blur(0);      }
+    100% { transform: translateY(0)     scale(1);    opacity: 1; }
   }
   .picker-result.flash::before {
     content: "";
     position: absolute; inset: 0;
     background: var(--accent-soft);
-    animation: flash 0.55s ease;
+    opacity: 0;   /* base: invisible, so after animation ends it stays out of the way */
+    animation: flash 0.75s ease;
+    animation-fill-mode: forwards;
     pointer-events: none;
+    z-index: 1;
   }
   @keyframes flash {
-    0%   { opacity: 0.8; }
-    100% { opacity: 0; }
+    0%   { opacity: 0.9; }
+    100% { opacity: 0;   }
   }
 
   /* Picked-list */
@@ -308,7 +326,7 @@
     <div class="topbar">
       <div class="lang-switch" role="tablist" aria-label="Language">
         <button class="lang-btn active" data-lang="en">EN</button>
-        <button class="lang-btn" data-lang="zh">中</button>
+        <button class="lang-btn" data-lang="zh">ä¸­</button>
       </div>
     </div>
 
@@ -449,40 +467,40 @@
       footer: "No tracking, no ads, works offline.",
     },
     zh: {
-      title: "活動工具",
-      tagline: "簡約的隨機抽號與倒數計時工具。",
-      picker_heading: "隨機抽號",
-      picker_sub: "在指定範圍內隨機抽取。",
-      min: "最小值",
-      max: "最大值",
-      unique_label: "重複",
-      allow_repeats: "允許重複",
-      no_repeats: "不重複",
-      pick_btn: "抽一個號碼",
-      undo_btn: "復原",
-      clear_btn: "全部清除",
-      picked_heading: "已抽出號碼",
-      no_picks: "尚無紀錄。",
-      all_picked: "全部 {n} 個號碼都已抽完。",
-      clear_to_restart: "清除以重新開始。",
-      invalid_numbers: "請輸入有效的數字。",
-      cd_heading: "倒數計時",
-      cd_sub: "短時活動計時器。",
-      event_title_label: "活動名稱",
-      event_title_ph: "例如：破冰環節",
-      mins_label: "分",
-      secs_label: "秒",
-      start_btn: "開始",
-      pause_btn: "暫停",
-      resume_btn: "繼續",
-      reset_btn: "重設",
-      minutes: "分",
-      seconds: "秒",
-      counting_to: "進行中：",
-      default_event: "您的活動",
-      pick_time: "請輸入大於零的時間。",
-      its_time: "時間到！",
-      footer: "無追蹤、無廣告、可離線使用。",
+      title: "æ´»åå·¥å·",
+      tagline: "ç°¡ç´çé¨æ©æ½èèåæ¸è¨æå·¥å·ã",
+      picker_heading: "é¨æ©æ½è",
+      picker_sub: "å¨æå®ç¯åå§é¨æ©æ½åã",
+      min: "æå°å¼",
+      max: "æå¤§å¼",
+      unique_label: "éè¤",
+      allow_repeats: "åè¨±éè¤",
+      no_repeats: "ä¸éè¤",
+      pick_btn: "æ½ä¸åèç¢¼",
+      undo_btn: "å¾©å",
+      clear_btn: "å¨é¨æ¸é¤",
+      picked_heading: "å·²æ½åºèç¢¼",
+      no_picks: "å°ç¡ç´éã",
+      all_picked: "å¨é¨ {n} åèç¢¼é½å·²æ½å®ã",
+      clear_to_restart: "æ¸é¤ä»¥éæ°éå§ã",
+      invalid_numbers: "è«è¼¸å¥ææçæ¸å­ã",
+      cd_heading: "åæ¸è¨æ",
+      cd_sub: "ç­ææ´»åè¨æå¨ã",
+      event_title_label: "æ´»ååç¨±",
+      event_title_ph: "ä¾å¦ï¼ç ´å°ç°ç¯",
+      mins_label: "å",
+      secs_label: "ç§",
+      start_btn: "éå§",
+      pause_btn: "æ«å",
+      resume_btn: "ç¹¼çº",
+      reset_btn: "éè¨­",
+      minutes: "å",
+      seconds: "ç§",
+      counting_to: "é²è¡ä¸­ï¼",
+      default_event: "æ¨çæ´»å",
+      pick_time: "è«è¼¸å¥å¤§æ¼é¶çæéã",
+      its_time: "æéå°ï¼",
+      footer: "ç¡è¿½è¹¤ãç¡å»£åãå¯é¢ç·ä½¿ç¨ã",
     }
   };
 
@@ -531,6 +549,45 @@
     btn.addEventListener("click", () => applyLanguage(btn.dataset.lang));
   });
 
+  // ---------- Audio (beep) ----------
+  let audioCtx = null;
+  function ensureAudio() {
+    try {
+      if (!audioCtx) {
+        const Ctor = window.AudioContext || window.webkitAudioContext;
+        if (!Ctor) return null;
+        audioCtx = new Ctor();
+      }
+      if (audioCtx.state === "suspended") audioCtx.resume();
+      return audioCtx;
+    } catch (e) { return null; }
+  }
+  function playBeepSequence() {
+    const ctx = ensureAudio();
+    if (!ctx) return;
+    const base = ctx.currentTime + 0.02;
+    // Three short beeps, last one held slightly longer.
+    const beeps = [
+      { at: 0.00, freq: 880, dur: 0.18 },
+      { at: 0.28, freq: 880, dur: 0.18 },
+      { at: 0.56, freq: 1175, dur: 0.42 },
+    ];
+    beeps.forEach(b => {
+      const t = base + b.at;
+      const osc = ctx.createOscillator();
+      const gain = ctx.createGain();
+      osc.type = "sine";
+      osc.frequency.setValueAtTime(b.freq, t);
+      gain.gain.setValueAtTime(0, t);
+      gain.gain.linearRampToValueAtTime(0.25, t + 0.01);
+      gain.gain.linearRampToValueAtTime(0.22, t + b.dur - 0.04);
+      gain.gain.linearRampToValueAtTime(0, t + b.dur);
+      osc.connect(gain).connect(ctx.destination);
+      osc.start(t);
+      osc.stop(t + b.dur + 0.02);
+    });
+  }
+
   // ---------- Picker ----------
   const pkMin = document.getElementById("pk-min");
   const pkMax = document.getElementById("pk-max");
@@ -544,6 +601,7 @@
   const pkCount = document.getElementById("pk-count");
 
   const history = [];
+  let pkRolling = false;
 
   function renderPicked() {
     pkCount.textContent = String(history.length);
@@ -567,7 +625,77 @@
     pkResult.classList.add("flash");
   }
 
+  function rollAndReveal(finalPick, lo, hi) {
+    if (pkRolling) return;
+    pkRolling = true;
+    pkPick.disabled = true;
+    pkUndo.disabled = true;
+    pkClear.disabled = true;
+
+    const range = hi - lo + 1;
+    const totalDuration = 1700;  // ms â overall roll length
+    const startInterval = 32;    // ms between number flips at start (fast)
+    const endInterval = 320;     // ms between flips near the end (dramatic slowdown)
+    const startTime = performance.now();
+
+    // Reset visual state and enter "spinning" mode (muted color, per-flip drop)
+    pkNum.classList.remove("rolling", "bump");
+    pkResult.classList.remove("flash");
+    pkNum.classList.add("spinning");
+
+    function randomOther(exclude) {
+      if (range <= 1) return lo;
+      let n;
+      // Avoid repeating the same number twice in a row so it reads as rolling
+      do { n = Math.floor(Math.random() * range) + lo; } while (n === exclude);
+      return n;
+    }
+
+    let last = null;
+
+    function step() {
+      const elapsed = performance.now() - startTime;
+      const progress = Math.min(1, elapsed / totalDuration);
+
+      if (progress >= 1) {
+        // Land on the real pick with a pop + flash
+        pkNum.classList.remove("spinning", "bump");
+        pkNum.textContent = String(finalPick);
+        // force a reflow so the animation restarts cleanly
+        void pkNum.offsetWidth;
+        pkNum.classList.add("rolling");
+        pkResult.classList.add("flash");
+
+        history.push(finalPick);
+        renderPicked(); // re-enables undo based on history
+
+        pkRolling = false;
+        pkPick.disabled = false;
+        pkClear.disabled = false;
+        return;
+      }
+
+      // Ease-IN on the interval: stay fast for most of the duration,
+      // slow dramatically only at the very end. Uses progress^4.
+      const eased = Math.pow(progress, 4);
+      const interval = startInterval + (endInterval - startInterval) * eased;
+
+      // Flip to a new number with a "drop-in" bump animation
+      last = randomOther(last);
+      pkNum.classList.remove("bump");
+      void pkNum.offsetWidth;
+      pkNum.textContent = String(last);
+      pkNum.classList.add("bump");
+
+      setTimeout(step, interval);
+    }
+
+    step();
+  }
+
   pkPick.addEventListener("click", () => {
+    if (pkRolling) return;
+
     const min = parseInt(pkMin.value, 10);
     const max = parseInt(pkMax.value, 10);
     if (!Number.isFinite(min) || !Number.isFinite(max)) {
@@ -582,7 +710,7 @@
     if (pkUnique.value === "yes") {
       const used = new Set(history);
       if (used.size >= range) {
-        pkNum.textContent = "✓";
+        pkNum.textContent = "â";
         return;
       }
       do {
@@ -592,28 +720,34 @@
       pick = Math.floor(Math.random() * range) + lo;
     }
 
-    pkNum.textContent = String(pick);
-    triggerPickAnim();
+    // Unlock audio via this user gesture so the timer beep is free to play later
+    ensureAudio();
 
-    history.push(pick);
-    renderPicked();
+    rollAndReveal(pick, lo, hi);
   });
 
   pkUndo.addEventListener("click", () => {
+    if (pkRolling) return;
     if (history.length === 0) return;
     history.pop();
     if (history.length === 0) {
-      pkNum.textContent = "—";
+      pkNum.textContent = "â";
+      pkNum.classList.remove("rolling", "spinning", "bump");
+      pkResult.classList.remove("flash");
     } else {
       pkNum.textContent = String(history[history.length - 1]);
+      pkNum.classList.remove("spinning", "bump");
       triggerPickAnim();
     }
     renderPicked();
   });
 
   pkClear.addEventListener("click", () => {
+    if (pkRolling) return;
     history.length = 0;
-    pkNum.textContent = "—";
+    pkNum.textContent = "â";
+    pkNum.classList.remove("rolling", "spinning", "bump");
+    pkResult.classList.remove("flash");
     renderPicked();
   });
 
@@ -661,12 +795,15 @@
       cdTimer = null;
       cdPause.disabled = true;
       cdRemaining = 0;
+      playBeepSequence();
       return;
     }
     renderRemaining(diff);
   }
 
   cdStart.addEventListener("click", () => {
+    // Unlock the audio context on this user gesture so the end-of-time beep is allowed to play.
+    ensureAudio();
     const mins = parseInt(cdMinsIn.value, 10) || 0;
     const secs = parseInt(cdSecsIn.value, 10) || 0;
     const totalMs = (mins * 60 + secs) * 1000;
@@ -694,14 +831,14 @@
   cdPause.addEventListener("click", () => {
     if (!cdStarted) return;
     if (cdTimer) {
-      // Currently running → pause
+      // Currently running â pause
       clearInterval(cdTimer);
       cdTimer = null;
       cdRemaining = Math.max(0, cdEndAt - Date.now());
       cdPaused = true;
       cdPause.textContent = t("resume_btn");
     } else if (cdRemaining > 0) {
-      // Paused → resume
+      // Paused â resume
       cdEndAt = Date.now() + cdRemaining;
       cdTimer = setInterval(tickCountdown, 250);
       cdPaused = false;
