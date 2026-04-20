@@ -3,313 +3,329 @@
 <head>
 <meta charset="UTF-8" />
 <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-<title>Event Toolkit &mdash; Countdown &amp; Number Picker</title>
-<link rel="icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'%3E%3Ctext y='.9em' font-size='90'%3E%F0%9F%8E%89%3C/text%3E%3C/svg%3E" />
+<title>Event Toolkit</title>
+<link rel="icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'%3E%3Ctext y='.9em' font-size='90'%3E%E2%9A%AB%3C/text%3E%3C/svg%3E" />
 <style>
   :root {
-    --bg: #0f1222;
-    --bg-2: #151936;
-    --card: #1c2042;
-    --card-2: #242a57;
-    --text: #eef1ff;
-    --muted: #9aa3c7;
-    --accent: #7c5cff;
-    --accent-2: #22d3ee;
-    --success: #34d399;
-    --danger: #f87171;
-    --border: rgba(255,255,255,0.08);
-    --shadow: 0 10px 30px rgba(0,0,0,0.35);
+    --bg: #fafaf9;
+    --surface: #ffffff;
+    --text: #111111;
+    --muted: #6b7280;
+    --border: #e5e7eb;
+    --border-strong: #111111;
+    --accent: #111111;
+    --accent-soft: #f3f4f6;
   }
   * { box-sizing: border-box; }
   html, body { height: 100%; }
   body {
     margin: 0;
-    font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Inter, Helvetica, Arial, sans-serif;
+    font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", "PingFang SC", "Hiragino Sans GB", "Microsoft YaHei", Roboto, Helvetica, Arial, sans-serif;
     color: var(--text);
-    background:
-      radial-gradient(1200px 600px at 10% -10%, rgba(124,92,255,0.25), transparent 60%),
-      radial-gradient(900px 500px at 100% 0%, rgba(34,211,238,0.18), transparent 60%),
-      linear-gradient(180deg, var(--bg), var(--bg-2));
+    background: var(--bg);
     min-height: 100dvh;
+    -webkit-font-smoothing: antialiased;
   }
   .container {
-    max-width: 880px;
+    max-width: 640px;
     margin: 0 auto;
-    padding: 48px 20px 64px;
+    padding: 56px 24px 80px;
+  }
+  .topbar {
+    display: flex;
+    justify-content: flex-end;
+    margin-bottom: 32px;
+  }
+  .lang-switch {
+    display: inline-flex;
+    border: 1px solid var(--border);
+    border-radius: 999px;
+    padding: 3px;
+    background: var(--surface);
+  }
+  .lang-btn {
+    appearance: none;
+    border: 0;
+    background: transparent;
+    color: var(--muted);
+    font-size: 13px;
+    font-weight: 500;
+    padding: 6px 14px;
+    border-radius: 999px;
+    cursor: pointer;
+    transition: all 0.15s ease;
+    font-family: inherit;
+  }
+  .lang-btn.active {
+    background: var(--accent);
+    color: #ffffff;
   }
   header.hero {
-    text-align: center;
-    margin-bottom: 28px;
+    margin-bottom: 48px;
   }
   header.hero h1 {
-    margin: 0 0 8px;
-    font-size: clamp(28px, 4vw, 42px);
+    margin: 0 0 6px;
+    font-size: 28px;
+    font-weight: 600;
     letter-spacing: -0.02em;
-    background: linear-gradient(90deg, #fff, #c4b8ff 50%, #9bf0ff);
-    -webkit-background-clip: text;
-    background-clip: text;
-    color: transparent;
   }
   header.hero p {
     margin: 0;
     color: var(--muted);
-    font-size: 15px;
+    font-size: 14px;
+    line-height: 1.5;
   }
-  .tabs {
+  .section {
+    margin-bottom: 48px;
+  }
+  .section-head {
     display: flex;
-    gap: 6px;
-    padding: 6px;
-    background: var(--card);
-    border: 1px solid var(--border);
-    border-radius: 14px;
-    margin: 24px auto;
-    width: max-content;
-    box-shadow: var(--shadow);
+    align-items: baseline;
+    justify-content: space-between;
+    margin-bottom: 16px;
+    padding-bottom: 10px;
+    border-bottom: 1px solid var(--border);
   }
-  .tab {
-    appearance: none;
-    border: 0;
-    background: transparent;
-    color: var(--muted);
-    font-size: 14px;
+  .section-head h2 {
+    margin: 0;
+    font-size: 15px;
     font-weight: 600;
-    padding: 10px 18px;
-    border-radius: 10px;
-    cursor: pointer;
-    transition: all 0.2s ease;
+    letter-spacing: 0.02em;
+    text-transform: uppercase;
   }
-  .tab:hover { color: var(--text); }
-  .tab.active {
-    background: linear-gradient(135deg, var(--accent), #5b8cff);
-    color: white;
-    box-shadow: 0 6px 18px rgba(124,92,255,0.35);
-  }
-  .panel {
-    background: var(--card);
-    border: 1px solid var(--border);
-    border-radius: 20px;
-    padding: 28px;
-    box-shadow: var(--shadow);
-  }
-  .panel h2 {
-    margin: 0 0 4px;
-    font-size: 20px;
-  }
-  .panel .sub {
-    margin: 0 0 20px;
+  .section-head .sub {
+    margin: 0;
     color: var(--muted);
-    font-size: 14px;
+    font-size: 12px;
   }
-  .row { display: flex; gap: 12px; flex-wrap: wrap; }
-  .row > * { flex: 1; min-width: 140px; }
-  label { display: block; font-size: 13px; color: var(--muted); margin-bottom: 6px; }
-  input[type="text"], input[type="number"], input[type="datetime-local"] {
+  .row { display: flex; gap: 10px; flex-wrap: wrap; }
+  .row > * { flex: 1; min-width: 120px; }
+  label {
+    display: block;
+    font-size: 12px;
+    color: var(--muted);
+    margin-bottom: 6px;
+    font-weight: 500;
+  }
+  input[type="text"], input[type="number"], input[type="datetime-local"], select {
     width: 100%;
-    padding: 12px 14px;
-    background: var(--bg);
+    padding: 10px 12px;
+    background: var(--surface);
     color: var(--text);
     border: 1px solid var(--border);
-    border-radius: 10px;
-    font-size: 15px;
+    border-radius: 8px;
+    font-size: 14px;
     outline: none;
-    transition: border-color 0.2s, box-shadow 0.2s;
+    font-family: inherit;
+    transition: border-color 0.15s;
   }
-  input:focus {
-    border-color: var(--accent);
-    box-shadow: 0 0 0 3px rgba(124,92,255,0.2);
+  input:focus, select:focus {
+    border-color: var(--border-strong);
   }
   .btn {
     appearance: none;
-    border: 0;
-    padding: 12px 18px;
-    border-radius: 10px;
-    font-size: 15px;
-    font-weight: 600;
+    padding: 10px 16px;
+    border-radius: 8px;
+    font-size: 14px;
+    font-weight: 500;
     cursor: pointer;
-    transition: transform 0.05s, filter 0.2s;
+    font-family: inherit;
+    transition: all 0.15s ease;
+    border: 1px solid transparent;
   }
-  .btn:active { transform: translateY(1px); }
   .btn-primary {
-    background: linear-gradient(135deg, var(--accent), #5b8cff);
-    color: white;
-    box-shadow: 0 8px 18px rgba(124,92,255,0.35);
+    background: var(--accent);
+    color: #ffffff;
+    border-color: var(--accent);
   }
-  .btn-primary:hover { filter: brightness(1.05); }
+  .btn-primary:hover { opacity: 0.85; }
   .btn-ghost {
-    background: transparent;
-    color: var(--muted);
-    border: 1px solid var(--border);
+    background: var(--surface);
+    color: var(--text);
+    border-color: var(--border);
   }
-  .btn-ghost:hover { color: var(--text); border-color: rgba(255,255,255,0.2); }
+  .btn-ghost:hover { border-color: var(--border-strong); }
   .actions {
-    display: flex; gap: 10px; margin-top: 18px; flex-wrap: wrap;
+    display: flex; gap: 8px; margin-top: 16px; flex-wrap: wrap;
+  }
+
+  /* Picker */
+  .picker-result {
+    margin-top: 24px;
+    text-align: center;
+    padding: 32px 16px;
+    border: 1px solid var(--border);
+    border-radius: 12px;
+    background: var(--surface);
+  }
+  .picker-num {
+    font-size: clamp(56px, 14vw, 88px);
+    font-weight: 600;
+    letter-spacing: -0.04em;
+    line-height: 1;
+    font-variant-numeric: tabular-nums;
+    transition: transform 0.2s;
+  }
+  .picker-num.rolling { animation: pulse 0.3s ease; }
+  @keyframes pulse { 0% { transform: scale(0.94); } 100% { transform: scale(1); } }
+  .history {
+    margin-top: 14px;
+    color: var(--muted);
+    font-size: 12px;
+    text-align: center;
+    min-height: 18px;
+    word-break: break-word;
+  }
+  .history span {
+    color: var(--text);
+    margin: 0 3px;
+    font-variant-numeric: tabular-nums;
   }
 
   /* Countdown */
   .countdown-display {
     display: grid;
     grid-template-columns: repeat(4, 1fr);
-    gap: 12px;
+    gap: 8px;
     margin-top: 24px;
   }
   .cd-cell {
-    background: linear-gradient(180deg, var(--card-2), #1e2450);
     border: 1px solid var(--border);
-    border-radius: 14px;
-    padding: 18px 10px;
+    border-radius: 10px;
+    padding: 18px 8px;
     text-align: center;
+    background: var(--surface);
   }
   .cd-num {
-    font-size: clamp(28px, 6vw, 44px);
-    font-weight: 800;
+    font-size: clamp(24px, 5vw, 36px);
+    font-weight: 600;
     letter-spacing: -0.02em;
     font-variant-numeric: tabular-nums;
-    background: linear-gradient(180deg, #fff, #c4b8ff);
-    -webkit-background-clip: text; background-clip: text; color: transparent;
   }
-  .cd-label { color: var(--muted); font-size: 12px; letter-spacing: 0.1em; text-transform: uppercase; margin-top: 6px; }
+  .cd-label {
+    color: var(--muted);
+    font-size: 11px;
+    letter-spacing: 0.08em;
+    text-transform: uppercase;
+    margin-top: 4px;
+  }
   .event-title {
     text-align: center;
-    margin-top: 18px;
-    color: var(--muted);
-  }
-  .event-title strong { color: var(--text); }
-  .cd-status {
-    margin-top: 14px;
-    text-align: center;
-    font-weight: 600;
-    min-height: 22px;
-  }
-  .cd-status.done { color: var(--success); }
-
-  /* Picker */
-  .picker-result {
-    margin-top: 24px;
-    text-align: center;
-    background: linear-gradient(180deg, var(--card-2), #1e2450);
-    border: 1px solid var(--border);
-    border-radius: 16px;
-    padding: 28px 16px;
-  }
-  .picker-num {
-    font-size: clamp(56px, 14vw, 96px);
-    font-weight: 800;
-    letter-spacing: -0.04em;
-    line-height: 1;
-    background: linear-gradient(90deg, #fff, #9bf0ff);
-    -webkit-background-clip: text; background-clip: text; color: transparent;
-    transition: transform 0.2s;
-  }
-  .picker-num.rolling { animation: pulse 0.35s ease; }
-  @keyframes pulse { 0% { transform: scale(0.96); } 100% { transform: scale(1); } }
-  .history {
-    margin-top: 18px;
+    margin-top: 16px;
     color: var(--muted);
     font-size: 13px;
-    text-align: center;
-    min-height: 20px;
-    word-break: break-word;
   }
-  .history span { color: var(--text); margin: 0 4px; }
+  .event-title strong { color: var(--text); font-weight: 500; }
+  .cd-status {
+    margin-top: 12px;
+    text-align: center;
+    font-size: 13px;
+    min-height: 18px;
+  }
+  .cd-status.done { color: var(--text); font-weight: 500; }
 
   .hidden { display: none !important; }
 
   footer {
-    margin-top: 28px;
+    margin-top: 32px;
     text-align: center;
     color: var(--muted);
-    font-size: 12px;
+    font-size: 11px;
   }
-  footer a { color: var(--muted); }
 
   @media (max-width: 480px) {
-    .container { padding: 28px 16px 40px; }
-    .panel { padding: 20px; }
+    .container { padding: 32px 18px 48px; }
     .cd-cell { padding: 14px 6px; }
   }
 </style>
 </head>
 <body>
   <div class="container">
-    <header class="hero">
-      <h1>🎉 Event Toolkit</h1>
-      <p>A simple countdown timer and random number picker for your events.</p>
-    </header>
-
-    <div class="tabs" role="tablist">
-      <button class="tab active" data-tab="countdown" role="tab">⏳ Countdown</button>
-      <button class="tab" data-tab="picker" role="tab">🎲 Number Picker</button>
+    <div class="topbar">
+      <div class="lang-switch" role="tablist" aria-label="Language">
+        <button class="lang-btn active" data-lang="en">EN</button>
+        <button class="lang-btn" data-lang="zh">中</button>
+      </div>
     </div>
 
-    <!-- COUNTDOWN PANEL -->
-    <section class="panel" id="panel-countdown">
-      <h2>Countdown</h2>
-      <p class="sub">Set an event title and target date &mdash; the countdown updates live.</p>
+    <header class="hero">
+      <h1 data-i18n="title">Event Toolkit</h1>
+      <p data-i18n="tagline">A minimal number picker and countdown timer.</p>
+    </header>
 
-      <div class="row">
-        <div style="flex: 2">
-          <label for="cd-title">Event title</label>
-          <input id="cd-title" type="text" placeholder="e.g. New Year's Eve Party" />
-        </div>
-        <div style="flex: 2">
-          <label for="cd-date">Target date &amp; time</label>
-          <input id="cd-date" type="datetime-local" />
-        </div>
+    <!-- NUMBER PICKER SECTION (on top) -->
+    <section class="section" id="section-picker">
+      <div class="section-head">
+        <h2 data-i18n="picker_heading">Number Picker</h2>
+        <p class="sub" data-i18n="picker_sub">Random pick in a range.</p>
       </div>
-
-      <div class="actions">
-        <button class="btn btn-primary" id="cd-start">Start countdown</button>
-        <button class="btn btn-ghost" id="cd-reset">Reset</button>
-      </div>
-
-      <div id="cd-output" class="hidden">
-        <div class="countdown-display">
-          <div class="cd-cell"><div class="cd-num" id="cd-days">0</div><div class="cd-label">Days</div></div>
-          <div class="cd-cell"><div class="cd-num" id="cd-hours">0</div><div class="cd-label">Hours</div></div>
-          <div class="cd-cell"><div class="cd-num" id="cd-mins">0</div><div class="cd-label">Minutes</div></div>
-          <div class="cd-cell"><div class="cd-num" id="cd-secs">0</div><div class="cd-label">Seconds</div></div>
-        </div>
-        <div class="event-title">Counting down to <strong id="cd-show-title">your event</strong></div>
-        <div class="cd-status" id="cd-status"></div>
-      </div>
-    </section>
-
-    <!-- PICKER PANEL -->
-    <section class="panel hidden" id="panel-picker">
-      <h2>Random Number Picker</h2>
-      <p class="sub">Pick a random number between any range. Great for raffles and prize draws.</p>
 
       <div class="row">
         <div>
-          <label for="pk-min">Minimum</label>
+          <label for="pk-min" data-i18n="min">Minimum</label>
           <input id="pk-min" type="number" value="1" />
         </div>
         <div>
-          <label for="pk-max">Maximum</label>
+          <label for="pk-max" data-i18n="max">Maximum</label>
           <input id="pk-max" type="number" value="100" />
         </div>
         <div>
-          <label for="pk-unique">Unique picks</label>
-          <select id="pk-unique" style="width:100%;padding:12px 14px;background:var(--bg);color:var(--text);border:1px solid var(--border);border-radius:10px;font-size:15px;">
-            <option value="no">Allow repeats</option>
-            <option value="yes">No repeats in history</option>
+          <label for="pk-unique" data-i18n="unique_label">Repeats</label>
+          <select id="pk-unique">
+            <option value="no" data-i18n="allow_repeats">Allow repeats</option>
+            <option value="yes" data-i18n="no_repeats">No repeats</option>
           </select>
         </div>
       </div>
 
       <div class="actions">
-        <button class="btn btn-primary" id="pk-pick">🎲 Pick a number</button>
-        <button class="btn btn-ghost" id="pk-clear">Clear history</button>
+        <button class="btn btn-primary" id="pk-pick" data-i18n="pick_btn">Pick a number</button>
+        <button class="btn btn-ghost" id="pk-clear" data-i18n="clear_btn">Clear history</button>
       </div>
 
       <div class="picker-result">
         <div class="picker-num" id="pk-num">&mdash;</div>
-        <div class="history" id="pk-history">No picks yet.</div>
+        <div class="history" id="pk-history" data-i18n="no_picks">No picks yet.</div>
+      </div>
+    </section>
+
+    <!-- COUNTDOWN SECTION (below) -->
+    <section class="section" id="section-countdown">
+      <div class="section-head">
+        <h2 data-i18n="cd_heading">Countdown</h2>
+        <p class="sub" data-i18n="cd_sub">Live timer to your event.</p>
+      </div>
+
+      <div class="row">
+        <div style="flex: 2">
+          <label for="cd-title" data-i18n="event_title_label">Event title</label>
+          <input id="cd-title" type="text" data-i18n-placeholder="event_title_ph" placeholder="e.g. New Year's Eve" />
+        </div>
+        <div style="flex: 2">
+          <label for="cd-date" data-i18n="target_label">Target date &amp; time</label>
+          <input id="cd-date" type="datetime-local" />
+        </div>
+      </div>
+
+      <div class="actions">
+        <button class="btn btn-primary" id="cd-start" data-i18n="start_btn">Start countdown</button>
+        <button class="btn btn-ghost" id="cd-reset" data-i18n="reset_btn">Reset</button>
+      </div>
+
+      <div id="cd-output" class="hidden">
+        <div class="countdown-display">
+          <div class="cd-cell"><div class="cd-num" id="cd-days">0</div><div class="cd-label" data-i18n="days">Days</div></div>
+          <div class="cd-cell"><div class="cd-num" id="cd-hours">0</div><div class="cd-label" data-i18n="hours">Hours</div></div>
+          <div class="cd-cell"><div class="cd-num" id="cd-mins">0</div><div class="cd-label" data-i18n="minutes">Minutes</div></div>
+          <div class="cd-cell"><div class="cd-num" id="cd-secs">0</div><div class="cd-label" data-i18n="seconds">Seconds</div></div>
+        </div>
+        <div class="event-title"><span data-i18n="counting_to">Counting down to</span> <strong id="cd-show-title" data-i18n="default_event">your event</strong></div>
+        <div class="cd-status" id="cd-status"></div>
       </div>
     </section>
 
     <footer>
-      Built with Event Toolkit &middot; No tracking, no ads, works offline.
+      <span data-i18n="footer">No tracking, no ads, works offline.</span>
     </footer>
   </div>
 
@@ -317,21 +333,123 @@
 (function () {
   "use strict";
 
-  // ---------- Tabs ----------
-  const tabs = document.querySelectorAll(".tab");
-  const panels = {
-    countdown: document.getElementById("panel-countdown"),
-    picker: document.getElementById("panel-picker"),
+  // ---------- i18n ----------
+  const I18N = {
+    en: {
+      title: "Event Toolkit",
+      tagline: "A minimal number picker and countdown timer.",
+      picker_heading: "Number Picker",
+      picker_sub: "Random pick in a range.",
+      min: "Minimum",
+      max: "Maximum",
+      unique_label: "Repeats",
+      allow_repeats: "Allow repeats",
+      no_repeats: "No repeats",
+      pick_btn: "Pick a number",
+      clear_btn: "Clear history",
+      no_picks: "No picks yet.",
+      recent: "Recent:",
+      all_picked: "All {n} numbers have been picked.",
+      clear_to_restart: "Clear history to start over.",
+      invalid_numbers: "Please enter valid numbers.",
+      cd_heading: "Countdown",
+      cd_sub: "Live timer to your event.",
+      event_title_label: "Event title",
+      event_title_ph: "e.g. New Year's Eve",
+      target_label: "Target date & time",
+      start_btn: "Start countdown",
+      reset_btn: "Reset",
+      days: "Days",
+      hours: "Hours",
+      minutes: "Minutes",
+      seconds: "Seconds",
+      counting_to: "Counting down to",
+      default_event: "your event",
+      pick_date: "Please pick a target date & time.",
+      invalid_date: "That date doesn't look valid.",
+      its_time: "It's time.",
+      footer: "No tracking, no ads, works offline.",
+    },
+    zh: {
+      title: "活動工具",
+      tagline: "簡約的隨機抽號與倒數計時工具。",
+      picker_heading: "隨機抽號",
+      picker_sub: "在指定範圍內隨機抽取。",
+      min: "最小值",
+      max: "最大值",
+      unique_label: "重複",
+      allow_repeats: "允許重複",
+      no_repeats: "不重複",
+      pick_btn: "抽一個號碼",
+      clear_btn: "清除紀錄",
+      no_picks: "尚無紀錄。",
+      recent: "最近：",
+      all_picked: "全部 {n} 個號碼都已抽完。",
+      clear_to_restart: "清除紀錄以重新開始。",
+      invalid_numbers: "請輸入有效的數字。",
+      cd_heading: "倒數計時",
+      cd_sub: "即時倒數至指定時刻。",
+      event_title_label: "活動名稱",
+      event_title_ph: "例如：跨年夜",
+      target_label: "目標日期與時間",
+      start_btn: "開始倒數",
+      reset_btn: "重設",
+      days: "天",
+      hours: "時",
+      minutes: "分",
+      seconds: "秒",
+      counting_to: "倒數至",
+      default_event: "您的活動",
+      pick_date: "請選擇目標日期與時間。",
+      invalid_date: "日期格式無效。",
+      its_time: "時間到！",
+      footer: "無追蹤、無廣告、可離線使用。",
+    }
   };
-  tabs.forEach(t => {
-    t.addEventListener("click", () => {
-      tabs.forEach(x => x.classList.remove("active"));
-      t.classList.add("active");
-      const which = t.dataset.tab;
-      Object.keys(panels).forEach(k => {
-        panels[k].classList.toggle("hidden", k !== which);
-      });
+
+  let currentLang = "en";
+
+  function t(key, vars) {
+    let s = (I18N[currentLang] && I18N[currentLang][key]) || I18N.en[key] || key;
+    if (vars) {
+      Object.keys(vars).forEach(k => { s = s.replace("{" + k + "}", vars[k]); });
+    }
+    return s;
+  }
+
+  function applyLanguage(lang) {
+    currentLang = lang;
+    document.documentElement.lang = lang === "zh" ? "zh-Hant" : "en";
+    document.title = t("title");
+
+    document.querySelectorAll("[data-i18n]").forEach(el => {
+      const key = el.getAttribute("data-i18n");
+      el.textContent = t(key);
     });
+    document.querySelectorAll("[data-i18n-placeholder]").forEach(el => {
+      const key = el.getAttribute("data-i18n-placeholder");
+      el.setAttribute("placeholder", t(key));
+    });
+
+    // Update button states
+    document.querySelectorAll(".lang-btn").forEach(b => {
+      b.classList.toggle("active", b.dataset.lang === lang);
+    });
+
+    // Re-render dynamic bits
+    renderHistory();
+    if (cdTarget) {
+      // If countdown running, refresh labels + title
+      const titleVal = cdTitle.value.trim() || t("default_event");
+      cdShowTitle.textContent = titleVal;
+      if (cdStatus.classList.contains("done")) {
+        cdStatus.textContent = t("its_time");
+      }
+    }
+  }
+
+  document.querySelectorAll(".lang-btn").forEach(btn => {
+    btn.addEventListener("click", () => applyLanguage(btn.dataset.lang));
   });
 
   // ---------- Countdown ----------
@@ -347,14 +465,13 @@
   const cdMins = document.getElementById("cd-mins");
   const cdSecs = document.getElementById("cd-secs");
 
-  // Set a sensible default target date (1 week from now, at noon local time)
+  // Default target = 1 week from now at noon
   (function setDefaultDate() {
     const d = new Date();
     d.setDate(d.getDate() + 7);
     d.setHours(12, 0, 0, 0);
     const pad = n => String(n).padStart(2, "0");
-    const val = `${d.getFullYear()}-${pad(d.getMonth()+1)}-${pad(d.getDate())}T${pad(d.getHours())}:${pad(d.getMinutes())}`;
-    cdDate.value = val;
+    cdDate.value = `${d.getFullYear()}-${pad(d.getMonth()+1)}-${pad(d.getDate())}T${pad(d.getHours())}:${pad(d.getMinutes())}`;
   })();
 
   let cdTimer = null;
@@ -371,18 +488,18 @@
       cdHours.textContent = "00";
       cdMins.textContent = "00";
       cdSecs.textContent = "00";
-      cdStatus.textContent = "🎉 It's time!";
+      cdStatus.textContent = t("its_time");
       cdStatus.classList.add("done");
       clearInterval(cdTimer);
       cdTimer = null;
       return;
     }
-    const days = Math.floor(diff / (1000 * 60 * 60 * 24));
-    diff -= days * 1000 * 60 * 60 * 24;
-    const hours = Math.floor(diff / (1000 * 60 * 60));
-    diff -= hours * 1000 * 60 * 60;
-    const mins = Math.floor(diff / (1000 * 60));
-    diff -= mins * 1000 * 60;
+    const days = Math.floor(diff / 86400000);
+    diff -= days * 86400000;
+    const hours = Math.floor(diff / 3600000);
+    diff -= hours * 3600000;
+    const mins = Math.floor(diff / 60000);
+    diff -= mins * 60000;
     const secs = Math.floor(diff / 1000);
 
     cdDays.textContent = String(days);
@@ -394,16 +511,16 @@
   cdStart.addEventListener("click", () => {
     if (!cdDate.value) {
       cdStatus.classList.remove("done");
-      cdStatus.textContent = "Please pick a target date & time.";
+      cdStatus.textContent = t("pick_date");
       cdOutput.classList.remove("hidden");
       return;
     }
     cdTarget = new Date(cdDate.value);
     if (isNaN(cdTarget.getTime())) {
-      cdStatus.textContent = "That date doesn't look valid.";
+      cdStatus.textContent = t("invalid_date");
       return;
     }
-    const title = cdTitle.value.trim() || "your event";
+    const title = cdTitle.value.trim() || t("default_event");
     cdShowTitle.textContent = title;
     cdStatus.classList.remove("done");
     cdStatus.textContent = "";
@@ -434,10 +551,10 @@
 
   function renderHistory() {
     if (history.length === 0) {
-      pkHistory.textContent = "No picks yet.";
+      pkHistory.textContent = t("no_picks");
       return;
     }
-    pkHistory.innerHTML = "Recent: " + history.slice(-12).map(n => `<span>${n}</span>`).join("");
+    pkHistory.innerHTML = t("recent") + " " + history.slice(-12).map(n => `<span>${n}</span>`).join("");
   }
 
   pkPick.addEventListener("click", () => {
@@ -445,7 +562,7 @@
     const max = parseInt(pkMax.value, 10);
     if (!Number.isFinite(min) || !Number.isFinite(max)) {
       pkNum.textContent = "?";
-      pkHistory.textContent = "Please enter valid numbers.";
+      pkHistory.textContent = t("invalid_numbers");
       return;
     }
     const lo = Math.min(min, max);
@@ -457,7 +574,7 @@
       const used = new Set(history);
       if (used.size >= range) {
         pkNum.textContent = "✓";
-        pkHistory.innerHTML = `All ${range} numbers have been picked. <span>Clear history to start over.</span>`;
+        pkHistory.innerHTML = t("all_picked", { n: range }) + ' <span>' + t("clear_to_restart") + '</span>';
         return;
       }
       do {
@@ -469,7 +586,6 @@
 
     pkNum.textContent = String(pick);
     pkNum.classList.remove("rolling");
-    // Force reflow so animation re-triggers
     void pkNum.offsetWidth;
     pkNum.classList.add("rolling");
 
@@ -482,6 +598,13 @@
     pkNum.textContent = "—";
     renderHistory();
   });
+
+  // Detect default language from browser (fallback to en)
+  try {
+    const nav = (navigator.language || "en").toLowerCase();
+    if (nav.startsWith("zh")) applyLanguage("zh");
+    else applyLanguage("en");
+  } catch (e) { applyLanguage("en"); }
 })();
 </script>
 </body>
