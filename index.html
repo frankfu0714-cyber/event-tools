@@ -60,9 +60,7 @@
     background: var(--accent);
     color: #ffffff;
   }
-  header.hero {
-    margin-bottom: 48px;
-  }
+  header.hero { margin-bottom: 48px; }
   header.hero h1 {
     margin: 0 0 6px;
     font-size: 28px;
@@ -75,9 +73,7 @@
     font-size: 14px;
     line-height: 1.5;
   }
-  .section {
-    margin-bottom: 48px;
-  }
+  .section { margin-bottom: 48px; }
   .section-head {
     display: flex;
     align-items: baseline;
@@ -119,9 +115,7 @@
     font-family: inherit;
     transition: border-color 0.15s;
   }
-  input:focus, select:focus {
-    border-color: var(--border-strong);
-  }
+  input:focus, select:focus { border-color: var(--border-strong); }
   .btn {
     appearance: none;
     padding: 10px 16px;
@@ -145,6 +139,7 @@
     border-color: var(--border);
   }
   .btn-ghost:hover { border-color: var(--border-strong); }
+  .btn:disabled { opacity: 0.35; cursor: not-allowed; }
   .actions {
     display: flex; gap: 8px; margin-top: 16px; flex-wrap: wrap;
   }
@@ -153,53 +148,121 @@
   .picker-result {
     margin-top: 24px;
     text-align: center;
-    padding: 32px 16px;
+    padding: 40px 16px;
+    border: 1px solid var(--border);
+    border-radius: 12px;
+    background: var(--surface);
+    position: relative;
+    overflow: hidden;
+  }
+  .picker-num {
+    font-size: clamp(72px, 18vw, 120px);
+    font-weight: 700;
+    letter-spacing: -0.05em;
+    line-height: 1;
+    font-variant-numeric: tabular-nums;
+    display: inline-block;
+    transform-origin: center;
+  }
+  .picker-num.rolling {
+    animation: pick-pop 0.55s cubic-bezier(.2,.9,.2,1.2);
+  }
+  @keyframes pick-pop {
+    0%   { transform: scale(0.4) rotate(-8deg); opacity: 0.1; filter: blur(4px); }
+    40%  { transform: scale(1.22) rotate(3deg); opacity: 1; filter: blur(0); }
+    70%  { transform: scale(0.95) rotate(-1deg); }
+    100% { transform: scale(1) rotate(0deg); }
+  }
+  .picker-result.flash::before {
+    content: "";
+    position: absolute; inset: 0;
+    background: var(--accent-soft);
+    animation: flash 0.55s ease;
+    pointer-events: none;
+  }
+  @keyframes flash {
+    0%   { opacity: 0.8; }
+    100% { opacity: 0; }
+  }
+
+  /* Picked-list */
+  .picked-block {
+    margin-top: 24px;
+    padding: 16px 18px;
     border: 1px solid var(--border);
     border-radius: 12px;
     background: var(--surface);
   }
-  .picker-num {
-    font-size: clamp(56px, 14vw, 88px);
-    font-weight: 600;
-    letter-spacing: -0.04em;
-    line-height: 1;
-    font-variant-numeric: tabular-nums;
-    transition: transform 0.2s;
+  .picked-head {
+    display: flex;
+    justify-content: space-between;
+    align-items: baseline;
+    margin-bottom: 10px;
   }
-  .picker-num.rolling { animation: pulse 0.3s ease; }
-  @keyframes pulse { 0% { transform: scale(0.94); } 100% { transform: scale(1); } }
-  .history {
-    margin-top: 14px;
-    color: var(--muted);
+  .picked-head h3 {
+    margin: 0;
     font-size: 12px;
-    text-align: center;
-    min-height: 18px;
-    word-break: break-word;
+    font-weight: 600;
+    color: var(--muted);
+    letter-spacing: 0.06em;
+    text-transform: uppercase;
   }
-  .history span {
-    color: var(--text);
-    margin: 0 3px;
+  .picked-count {
+    font-size: 12px;
+    color: var(--muted);
     font-variant-numeric: tabular-nums;
+  }
+  .picked-list {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 6px;
+  }
+  .picked-empty {
+    color: var(--muted);
+    font-size: 13px;
+  }
+  .pick-chip {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    min-width: 36px;
+    padding: 6px 10px;
+    border: 1px solid var(--border);
+    border-radius: 8px;
+    background: var(--bg);
+    font-size: 14px;
+    font-weight: 500;
+    font-variant-numeric: tabular-nums;
+    color: var(--text);
+  }
+  .pick-chip.latest {
+    background: var(--accent);
+    color: #ffffff;
+    border-color: var(--accent);
   }
 
   /* Countdown */
   .countdown-display {
     display: grid;
-    grid-template-columns: repeat(4, 1fr);
+    grid-template-columns: repeat(2, 1fr);
     gap: 8px;
     margin-top: 24px;
+    max-width: 320px;
+    margin-left: auto;
+    margin-right: auto;
   }
   .cd-cell {
     border: 1px solid var(--border);
     border-radius: 10px;
-    padding: 18px 8px;
+    padding: 22px 8px;
     text-align: center;
     background: var(--surface);
   }
   .cd-num {
-    font-size: clamp(24px, 5vw, 36px);
-    font-weight: 600;
-    letter-spacing: -0.02em;
+    font-size: clamp(40px, 9vw, 64px);
+    font-weight: 700;
+    letter-spacing: -0.03em;
+    line-height: 1;
     font-variant-numeric: tabular-nums;
   }
   .cd-label {
@@ -207,7 +270,7 @@
     font-size: 11px;
     letter-spacing: 0.08em;
     text-transform: uppercase;
-    margin-top: 4px;
+    margin-top: 8px;
   }
   .event-title {
     text-align: center;
@@ -222,7 +285,8 @@
     font-size: 13px;
     min-height: 18px;
   }
-  .cd-status.done { color: var(--text); font-weight: 500; }
+  .cd-status.done { color: var(--text); font-weight: 600; }
+  .cd-num.warning { color: #dc2626; }
 
   .hidden { display: none !important; }
 
@@ -235,7 +299,7 @@
 
   @media (max-width: 480px) {
     .container { padding: 32px 18px 48px; }
-    .cd-cell { padding: 14px 6px; }
+    .cd-cell { padding: 18px 6px; }
   }
 </style>
 </head>
@@ -253,7 +317,7 @@
       <p data-i18n="tagline">A minimal number picker and countdown timer.</p>
     </header>
 
-    <!-- NUMBER PICKER SECTION (on top) -->
+    <!-- NUMBER PICKER (top) -->
     <section class="section" id="section-picker">
       <div class="section-head">
         <h2 data-i18n="picker_heading">Number Picker</h2>
@@ -280,46 +344,59 @@
 
       <div class="actions">
         <button class="btn btn-primary" id="pk-pick" data-i18n="pick_btn">Pick a number</button>
-        <button class="btn btn-ghost" id="pk-clear" data-i18n="clear_btn">Clear history</button>
+        <button class="btn btn-ghost" id="pk-undo" data-i18n="undo_btn" disabled>Undo</button>
+        <button class="btn btn-ghost" id="pk-clear" data-i18n="clear_btn">Clear all</button>
       </div>
 
-      <div class="picker-result">
+      <div class="picker-result" id="pk-result">
         <div class="picker-num" id="pk-num">&mdash;</div>
-        <div class="history" id="pk-history" data-i18n="no_picks">No picks yet.</div>
+      </div>
+
+      <div class="picked-block">
+        <div class="picked-head">
+          <h3 data-i18n="picked_heading">Picked so far</h3>
+          <span class="picked-count" id="pk-count">0</span>
+        </div>
+        <div class="picked-list" id="pk-list">
+          <span class="picked-empty" data-i18n="no_picks">No picks yet.</span>
+        </div>
       </div>
     </section>
 
-    <!-- COUNTDOWN SECTION (below) -->
+    <!-- COUNTDOWN (below) -->
     <section class="section" id="section-countdown">
       <div class="section-head">
         <h2 data-i18n="cd_heading">Countdown</h2>
-        <p class="sub" data-i18n="cd_sub">Live timer to your event.</p>
+        <p class="sub" data-i18n="cd_sub">Short activity timer.</p>
       </div>
 
       <div class="row">
         <div style="flex: 2">
-          <label for="cd-title" data-i18n="event_title_label">Event title</label>
-          <input id="cd-title" type="text" data-i18n-placeholder="event_title_ph" placeholder="e.g. New Year's Eve" />
+          <label for="cd-title" data-i18n="event_title_label">Activity name</label>
+          <input id="cd-title" type="text" data-i18n-placeholder="event_title_ph" placeholder="e.g. Icebreaker round" />
         </div>
-        <div style="flex: 2">
-          <label for="cd-date" data-i18n="target_label">Target date &amp; time</label>
-          <input id="cd-date" type="datetime-local" />
+        <div>
+          <label for="cd-mins-in" data-i18n="mins_label">Minutes</label>
+          <input id="cd-mins-in" type="number" min="0" max="59" value="5" />
+        </div>
+        <div>
+          <label for="cd-secs-in" data-i18n="secs_label">Seconds</label>
+          <input id="cd-secs-in" type="number" min="0" max="59" value="0" />
         </div>
       </div>
 
       <div class="actions">
-        <button class="btn btn-primary" id="cd-start" data-i18n="start_btn">Start countdown</button>
+        <button class="btn btn-primary" id="cd-start" data-i18n="start_btn">Start</button>
+        <button class="btn btn-ghost" id="cd-pause" data-i18n="pause_btn" disabled>Pause</button>
         <button class="btn btn-ghost" id="cd-reset" data-i18n="reset_btn">Reset</button>
       </div>
 
       <div id="cd-output" class="hidden">
         <div class="countdown-display">
-          <div class="cd-cell"><div class="cd-num" id="cd-days">0</div><div class="cd-label" data-i18n="days">Days</div></div>
-          <div class="cd-cell"><div class="cd-num" id="cd-hours">0</div><div class="cd-label" data-i18n="hours">Hours</div></div>
-          <div class="cd-cell"><div class="cd-num" id="cd-mins">0</div><div class="cd-label" data-i18n="minutes">Minutes</div></div>
-          <div class="cd-cell"><div class="cd-num" id="cd-secs">0</div><div class="cd-label" data-i18n="seconds">Seconds</div></div>
+          <div class="cd-cell"><div class="cd-num" id="cd-mins">05</div><div class="cd-label" data-i18n="minutes">Minutes</div></div>
+          <div class="cd-cell"><div class="cd-num" id="cd-secs">00</div><div class="cd-label" data-i18n="seconds">Seconds</div></div>
         </div>
-        <div class="event-title"><span data-i18n="counting_to">Counting down to</span> <strong id="cd-show-title" data-i18n="default_event">your event</strong></div>
+        <div class="event-title"><span data-i18n="counting_to">Running:</span> <strong id="cd-show-title" data-i18n="default_event">your activity</strong></div>
         <div class="cd-status" id="cd-status"></div>
       </div>
     </section>
@@ -346,28 +423,29 @@
       allow_repeats: "Allow repeats",
       no_repeats: "No repeats",
       pick_btn: "Pick a number",
-      clear_btn: "Clear history",
+      undo_btn: "Undo",
+      clear_btn: "Clear all",
+      picked_heading: "Picked so far",
       no_picks: "No picks yet.",
-      recent: "Recent:",
       all_picked: "All {n} numbers have been picked.",
-      clear_to_restart: "Clear history to start over.",
+      clear_to_restart: "Clear to start over.",
       invalid_numbers: "Please enter valid numbers.",
       cd_heading: "Countdown",
-      cd_sub: "Live timer to your event.",
-      event_title_label: "Event title",
-      event_title_ph: "e.g. New Year's Eve",
-      target_label: "Target date & time",
-      start_btn: "Start countdown",
+      cd_sub: "Short activity timer.",
+      event_title_label: "Activity name",
+      event_title_ph: "e.g. Icebreaker round",
+      mins_label: "Minutes",
+      secs_label: "Seconds",
+      start_btn: "Start",
+      pause_btn: "Pause",
+      resume_btn: "Resume",
       reset_btn: "Reset",
-      days: "Days",
-      hours: "Hours",
       minutes: "Minutes",
       seconds: "Seconds",
-      counting_to: "Counting down to",
-      default_event: "your event",
-      pick_date: "Please pick a target date & time.",
-      invalid_date: "That date doesn't look valid.",
-      its_time: "It's time.",
+      counting_to: "Running:",
+      default_event: "your activity",
+      pick_time: "Please enter a time greater than zero.",
+      its_time: "Time's up!",
       footer: "No tracking, no ads, works offline.",
     },
     zh: {
@@ -381,27 +459,28 @@
       allow_repeats: "允許重複",
       no_repeats: "不重複",
       pick_btn: "抽一個號碼",
-      clear_btn: "清除紀錄",
+      undo_btn: "復原",
+      clear_btn: "全部清除",
+      picked_heading: "已抽出號碼",
       no_picks: "尚無紀錄。",
-      recent: "最近：",
       all_picked: "全部 {n} 個號碼都已抽完。",
-      clear_to_restart: "清除紀錄以重新開始。",
+      clear_to_restart: "清除以重新開始。",
       invalid_numbers: "請輸入有效的數字。",
       cd_heading: "倒數計時",
-      cd_sub: "即時倒數至指定時刻。",
+      cd_sub: "短時活動計時器。",
       event_title_label: "活動名稱",
-      event_title_ph: "例如：跨年夜",
-      target_label: "目標日期與時間",
-      start_btn: "開始倒數",
+      event_title_ph: "例如：破冰環節",
+      mins_label: "分",
+      secs_label: "秒",
+      start_btn: "開始",
+      pause_btn: "暫停",
+      resume_btn: "繼續",
       reset_btn: "重設",
-      days: "天",
-      hours: "時",
       minutes: "分",
       seconds: "秒",
-      counting_to: "倒數至",
+      counting_to: "進行中：",
       default_event: "您的活動",
-      pick_date: "請選擇目標日期與時間。",
-      invalid_date: "日期格式無效。",
+      pick_time: "請輸入大於零的時間。",
       its_time: "時間到！",
       footer: "無追蹤、無廣告、可離線使用。",
     }
@@ -411,9 +490,7 @@
 
   function t(key, vars) {
     let s = (I18N[currentLang] && I18N[currentLang][key]) || I18N.en[key] || key;
-    if (vars) {
-      Object.keys(vars).forEach(k => { s = s.replace("{" + k + "}", vars[k]); });
-    }
+    if (vars) Object.keys(vars).forEach(k => { s = s.replace("{" + k + "}", vars[k]); });
     return s;
   }
 
@@ -431,20 +508,22 @@
       el.setAttribute("placeholder", t(key));
     });
 
-    // Update button states
     document.querySelectorAll(".lang-btn").forEach(b => {
       b.classList.toggle("active", b.dataset.lang === lang);
     });
 
     // Re-render dynamic bits
-    renderHistory();
-    if (cdTarget) {
-      // If countdown running, refresh labels + title
-      const titleVal = cdTitle.value.trim() || t("default_event");
-      cdShowTitle.textContent = titleVal;
-      if (cdStatus.classList.contains("done")) {
-        cdStatus.textContent = t("its_time");
-      }
+    renderPicked();
+    // Pause button may show Resume
+    if (cdPaused && cdTimer === null && cdRemaining > 0 && cdStarted) {
+      cdPause.textContent = t("resume_btn");
+    } else {
+      cdPause.textContent = t("pause_btn");
+    }
+    // Update event title text
+    if (cdStarted) {
+      cdShowTitle.textContent = cdTitle.value.trim() || t("default_event");
+      if (cdStatus.classList.contains("done")) cdStatus.textContent = t("its_time");
     }
   }
 
@@ -452,109 +531,40 @@
     btn.addEventListener("click", () => applyLanguage(btn.dataset.lang));
   });
 
-  // ---------- Countdown ----------
-  const cdTitle = document.getElementById("cd-title");
-  const cdDate = document.getElementById("cd-date");
-  const cdStart = document.getElementById("cd-start");
-  const cdReset = document.getElementById("cd-reset");
-  const cdOutput = document.getElementById("cd-output");
-  const cdShowTitle = document.getElementById("cd-show-title");
-  const cdStatus = document.getElementById("cd-status");
-  const cdDays = document.getElementById("cd-days");
-  const cdHours = document.getElementById("cd-hours");
-  const cdMins = document.getElementById("cd-mins");
-  const cdSecs = document.getElementById("cd-secs");
-
-  // Default target = 1 week from now at noon
-  (function setDefaultDate() {
-    const d = new Date();
-    d.setDate(d.getDate() + 7);
-    d.setHours(12, 0, 0, 0);
-    const pad = n => String(n).padStart(2, "0");
-    cdDate.value = `${d.getFullYear()}-${pad(d.getMonth()+1)}-${pad(d.getDate())}T${pad(d.getHours())}:${pad(d.getMinutes())}`;
-  })();
-
-  let cdTimer = null;
-  let cdTarget = null;
-
-  function pad2(n) { return String(n).padStart(2, "0"); }
-
-  function tickCountdown() {
-    if (!cdTarget) return;
-    const now = new Date();
-    let diff = cdTarget.getTime() - now.getTime();
-    if (diff <= 0) {
-      cdDays.textContent = "0";
-      cdHours.textContent = "00";
-      cdMins.textContent = "00";
-      cdSecs.textContent = "00";
-      cdStatus.textContent = t("its_time");
-      cdStatus.classList.add("done");
-      clearInterval(cdTimer);
-      cdTimer = null;
-      return;
-    }
-    const days = Math.floor(diff / 86400000);
-    diff -= days * 86400000;
-    const hours = Math.floor(diff / 3600000);
-    diff -= hours * 3600000;
-    const mins = Math.floor(diff / 60000);
-    diff -= mins * 60000;
-    const secs = Math.floor(diff / 1000);
-
-    cdDays.textContent = String(days);
-    cdHours.textContent = pad2(hours);
-    cdMins.textContent = pad2(mins);
-    cdSecs.textContent = pad2(secs);
-  }
-
-  cdStart.addEventListener("click", () => {
-    if (!cdDate.value) {
-      cdStatus.classList.remove("done");
-      cdStatus.textContent = t("pick_date");
-      cdOutput.classList.remove("hidden");
-      return;
-    }
-    cdTarget = new Date(cdDate.value);
-    if (isNaN(cdTarget.getTime())) {
-      cdStatus.textContent = t("invalid_date");
-      return;
-    }
-    const title = cdTitle.value.trim() || t("default_event");
-    cdShowTitle.textContent = title;
-    cdStatus.classList.remove("done");
-    cdStatus.textContent = "";
-    cdOutput.classList.remove("hidden");
-    tickCountdown();
-    if (cdTimer) clearInterval(cdTimer);
-    cdTimer = setInterval(tickCountdown, 1000);
-  });
-
-  cdReset.addEventListener("click", () => {
-    if (cdTimer) { clearInterval(cdTimer); cdTimer = null; }
-    cdTarget = null;
-    cdOutput.classList.add("hidden");
-    cdStatus.classList.remove("done");
-    cdStatus.textContent = "";
-  });
-
   // ---------- Picker ----------
   const pkMin = document.getElementById("pk-min");
   const pkMax = document.getElementById("pk-max");
   const pkUnique = document.getElementById("pk-unique");
   const pkPick = document.getElementById("pk-pick");
+  const pkUndo = document.getElementById("pk-undo");
   const pkClear = document.getElementById("pk-clear");
   const pkNum = document.getElementById("pk-num");
-  const pkHistory = document.getElementById("pk-history");
+  const pkResult = document.getElementById("pk-result");
+  const pkList = document.getElementById("pk-list");
+  const pkCount = document.getElementById("pk-count");
 
   const history = [];
 
-  function renderHistory() {
+  function renderPicked() {
+    pkCount.textContent = String(history.length);
     if (history.length === 0) {
-      pkHistory.textContent = t("no_picks");
+      pkList.innerHTML = `<span class="picked-empty">${t("no_picks")}</span>`;
+      pkUndo.disabled = true;
       return;
     }
-    pkHistory.innerHTML = t("recent") + " " + history.slice(-12).map(n => `<span>${n}</span>`).join("");
+    pkUndo.disabled = false;
+    const lastIdx = history.length - 1;
+    pkList.innerHTML = history
+      .map((n, i) => `<span class="pick-chip${i === lastIdx ? ' latest' : ''}">${n}</span>`)
+      .join("");
+  }
+
+  function triggerPickAnim() {
+    pkNum.classList.remove("rolling");
+    pkResult.classList.remove("flash");
+    void pkNum.offsetWidth;
+    pkNum.classList.add("rolling");
+    pkResult.classList.add("flash");
   }
 
   pkPick.addEventListener("click", () => {
@@ -562,7 +572,6 @@
     const max = parseInt(pkMax.value, 10);
     if (!Number.isFinite(min) || !Number.isFinite(max)) {
       pkNum.textContent = "?";
-      pkHistory.textContent = t("invalid_numbers");
       return;
     }
     const lo = Math.min(min, max);
@@ -574,7 +583,6 @@
       const used = new Set(history);
       if (used.size >= range) {
         pkNum.textContent = "✓";
-        pkHistory.innerHTML = t("all_picked", { n: range }) + ' <span>' + t("clear_to_restart") + '</span>';
         return;
       }
       do {
@@ -585,21 +593,138 @@
     }
 
     pkNum.textContent = String(pick);
-    pkNum.classList.remove("rolling");
-    void pkNum.offsetWidth;
-    pkNum.classList.add("rolling");
+    triggerPickAnim();
 
     history.push(pick);
-    renderHistory();
+    renderPicked();
+  });
+
+  pkUndo.addEventListener("click", () => {
+    if (history.length === 0) return;
+    history.pop();
+    if (history.length === 0) {
+      pkNum.textContent = "—";
+    } else {
+      pkNum.textContent = String(history[history.length - 1]);
+      triggerPickAnim();
+    }
+    renderPicked();
   });
 
   pkClear.addEventListener("click", () => {
     history.length = 0;
     pkNum.textContent = "—";
-    renderHistory();
+    renderPicked();
   });
 
-  // Detect default language from browser (fallback to en)
+  // ---------- Countdown ----------
+  const cdTitle = document.getElementById("cd-title");
+  const cdMinsIn = document.getElementById("cd-mins-in");
+  const cdSecsIn = document.getElementById("cd-secs-in");
+  const cdStart = document.getElementById("cd-start");
+  const cdPause = document.getElementById("cd-pause");
+  const cdReset = document.getElementById("cd-reset");
+  const cdOutput = document.getElementById("cd-output");
+  const cdShowTitle = document.getElementById("cd-show-title");
+  const cdStatus = document.getElementById("cd-status");
+  const cdMinsEl = document.getElementById("cd-mins");
+  const cdSecsEl = document.getElementById("cd-secs");
+
+  function pad2(n) { return String(n).padStart(2, "0"); }
+
+  let cdTimer = null;
+  let cdRemaining = 0;   // milliseconds
+  let cdEndAt = 0;
+  let cdStarted = false;
+  let cdPaused = false;
+
+  function renderRemaining(ms) {
+    const totalSec = Math.max(0, Math.ceil(ms / 1000));
+    const m = Math.floor(totalSec / 60);
+    const s = totalSec % 60;
+    cdMinsEl.textContent = pad2(m);
+    cdSecsEl.textContent = pad2(s);
+    // Warning color under 10 seconds total
+    const lowTime = totalSec <= 10 && totalSec > 0;
+    cdMinsEl.classList.toggle("warning", lowTime);
+    cdSecsEl.classList.toggle("warning", lowTime);
+  }
+
+  function tickCountdown() {
+    const now = Date.now();
+    const diff = cdEndAt - now;
+    if (diff <= 0) {
+      renderRemaining(0);
+      cdStatus.textContent = t("its_time");
+      cdStatus.classList.add("done");
+      clearInterval(cdTimer);
+      cdTimer = null;
+      cdPause.disabled = true;
+      cdRemaining = 0;
+      return;
+    }
+    renderRemaining(diff);
+  }
+
+  cdStart.addEventListener("click", () => {
+    const mins = parseInt(cdMinsIn.value, 10) || 0;
+    const secs = parseInt(cdSecsIn.value, 10) || 0;
+    const totalMs = (mins * 60 + secs) * 1000;
+    if (totalMs <= 0) {
+      cdOutput.classList.remove("hidden");
+      cdStatus.classList.remove("done");
+      cdStatus.textContent = t("pick_time");
+      return;
+    }
+    cdRemaining = totalMs;
+    cdEndAt = Date.now() + totalMs;
+    cdStarted = true;
+    cdPaused = false;
+    cdShowTitle.textContent = cdTitle.value.trim() || t("default_event");
+    cdStatus.classList.remove("done");
+    cdStatus.textContent = "";
+    cdOutput.classList.remove("hidden");
+    renderRemaining(totalMs);
+    if (cdTimer) clearInterval(cdTimer);
+    cdTimer = setInterval(tickCountdown, 250);
+    cdPause.disabled = false;
+    cdPause.textContent = t("pause_btn");
+  });
+
+  cdPause.addEventListener("click", () => {
+    if (!cdStarted) return;
+    if (cdTimer) {
+      // Currently running → pause
+      clearInterval(cdTimer);
+      cdTimer = null;
+      cdRemaining = Math.max(0, cdEndAt - Date.now());
+      cdPaused = true;
+      cdPause.textContent = t("resume_btn");
+    } else if (cdRemaining > 0) {
+      // Paused → resume
+      cdEndAt = Date.now() + cdRemaining;
+      cdTimer = setInterval(tickCountdown, 250);
+      cdPaused = false;
+      cdPause.textContent = t("pause_btn");
+    }
+  });
+
+  cdReset.addEventListener("click", () => {
+    if (cdTimer) { clearInterval(cdTimer); cdTimer = null; }
+    cdStarted = false;
+    cdPaused = false;
+    cdRemaining = 0;
+    cdEndAt = 0;
+    cdOutput.classList.add("hidden");
+    cdStatus.classList.remove("done");
+    cdStatus.textContent = "";
+    cdMinsEl.classList.remove("warning");
+    cdSecsEl.classList.remove("warning");
+    cdPause.disabled = true;
+    cdPause.textContent = t("pause_btn");
+  });
+
+  // Detect default language from browser
   try {
     const nav = (navigator.language || "en").toLowerCase();
     if (nav.startsWith("zh")) applyLanguage("zh");
