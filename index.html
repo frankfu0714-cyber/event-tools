@@ -306,6 +306,76 @@
   .cd-status.done { color: var(--text); font-weight: 600; }
   .cd-num.warning { color: #dc2626; }
 
+  /* Poster */
+  .poster-presets {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 6px;
+    margin-top: 14px;
+  }
+  .poster-presets .preset-btn {
+    padding: 6px 12px;
+    font-size: 13px;
+  }
+  .poster-overlay {
+    position: fixed;
+    inset: 0;
+    background: var(--text);
+    color: var(--bg);
+    z-index: 1000;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    cursor: pointer;
+    animation: poster-fade 0.22s ease;
+  }
+  @keyframes poster-fade {
+    from { opacity: 0; }
+    to   { opacity: 1; }
+  }
+  .poster-text {
+    font-weight: 800;
+    letter-spacing: -0.02em;
+    text-align: center;
+    line-height: 1.05;
+    padding: 0 5vw;
+    max-width: 100%;
+    word-break: break-word;
+    overflow-wrap: anywhere;
+    white-space: pre-wrap;
+    user-select: none;
+  }
+  .poster-close {
+    position: absolute;
+    top: 22px;
+    right: 24px;
+    width: 44px;
+    height: 44px;
+    border-radius: 50%;
+    background: rgba(255, 255, 255, 0.1);
+    color: inherit;
+    border: 0;
+    font-size: 26px;
+    line-height: 1;
+    cursor: pointer;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-family: inherit;
+    transition: background 0.15s ease;
+  }
+  .poster-close:hover { background: rgba(255, 255, 255, 0.2); }
+  .poster-hint {
+    position: absolute;
+    bottom: 22px;
+    left: 0;
+    right: 0;
+    text-align: center;
+    font-size: 12px;
+    opacity: 0.45;
+    letter-spacing: 0.04em;
+  }
+
   .hidden { display: none !important; }
 
   footer {
@@ -419,9 +489,41 @@
       </div>
     </section>
 
+    <!-- POSTER -->
+    <section class="section" id="section-poster">
+      <div class="section-head">
+        <h2 data-i18n="poster_heading">Poster</h2>
+        <p class="sub" data-i18n="poster_sub">Big text on screen.</p>
+      </div>
+
+      <div>
+        <label for="ps-text" data-i18n="poster_label">Text</label>
+        <input id="ps-text" type="text" data-i18n-placeholder="poster_ph" placeholder="e.g. Break Time" maxlength="60" />
+      </div>
+
+      <div class="poster-presets">
+        <button class="btn btn-ghost preset-btn" data-preset="break" data-i18n="preset_break">Break Time</button>
+        <button class="btn btn-ghost preset-btn" data-preset="qa" data-i18n="preset_qa">Q &amp; A</button>
+        <button class="btn btn-ghost preset-btn" data-preset="discussion" data-i18n="preset_discussion">Discussion</button>
+        <button class="btn btn-ghost preset-btn" data-preset="welcome" data-i18n="preset_welcome">Welcome</button>
+        <button class="btn btn-ghost preset-btn" data-preset="brb" data-i18n="preset_brb">Be Right Back</button>
+      </div>
+
+      <div class="actions">
+        <button class="btn btn-primary" id="ps-show" data-i18n="show_btn">Show</button>
+      </div>
+    </section>
+
     <footer>
       <span data-i18n="footer">No tracking, no ads, works offline.</span>
     </footer>
+  </div>
+
+  <!-- POSTER OVERLAY -->
+  <div id="ps-overlay" class="poster-overlay hidden" role="dialog" aria-modal="true">
+    <button class="poster-close" id="ps-close" aria-label="Close" type="button">Ã</button>
+    <div class="poster-text" id="ps-display"></div>
+    <div class="poster-hint" data-i18n="poster_hint">Press ESC or click anywhere to close</div>
   </div>
 
 <script>
@@ -464,6 +566,18 @@
       default_event: "your activity",
       pick_time: "Please enter a time greater than zero.",
       its_time: "Time's up!",
+      poster_heading: "Poster",
+      poster_sub: "Big text, full screen.",
+      poster_label: "Text",
+      poster_ph: "e.g. Break Time",
+      show_btn: "Show",
+      preset_break: "Break Time",
+      preset_qa: "Q & A",
+      preset_discussion: "Discussion",
+      preset_welcome: "Welcome",
+      preset_brb: "Be Right Back",
+      poster_hint: "Press ESC or click anywhere to close",
+      default_poster: "Break Time",
       footer: "No tracking, no ads, works offline.",
     },
     zh: {
@@ -500,6 +614,18 @@
       default_event: "æ¨çæ´»å",
       pick_time: "è«è¼¸å¥å¤§æ¼é¶çæéã",
       its_time: "æéå°ï¼",
+      poster_heading: "æµ·å ±",
+      poster_sub: "å¨è¢å¹å¤§å­é¡¯ç¤ºã",
+      poster_label: "æå­",
+      poster_ph: "ä¾å¦ï¼ä¼æ¯æé",
+      show_btn: "é¡¯ç¤º",
+      preset_break: "ä¼æ¯æé",
+      preset_qa: "åèç­",
+      preset_discussion: "è¨è«æé",
+      preset_welcome: "æ­¡è¿",
+      preset_brb: "é¦¬ä¸åä¾",
+      poster_hint: "æ ESC æé»æä»»æèéé",
+      default_poster: "ä¼æ¯æé",
       footer: "ç¡è¿½è¹¤ãç¡å»£åãå¯é¢ç·ä½¿ç¨ã",
     }
   };
@@ -859,6 +985,77 @@
     cdSecsEl.classList.remove("warning");
     cdPause.disabled = true;
     cdPause.textContent = t("pause_btn");
+  });
+
+  // ---------- Poster ----------
+  const psText = document.getElementById("ps-text");
+  const psShow = document.getElementById("ps-show");
+  const psOverlay = document.getElementById("ps-overlay");
+  const psClose = document.getElementById("ps-close");
+  const psDisplay = document.getElementById("ps-display");
+
+  function fitPosterText() {
+    if (!psDisplay) return;
+    const W = window.innerWidth;
+    const H = window.innerHeight;
+    // Reserve room for close button + hint + side padding
+    const maxW = W * 0.9;
+    const maxH = H * 0.78;
+    // Start big, shrink until it fits
+    let size = Math.min(W * 0.9, H * 0.6);
+    psDisplay.style.fontSize = size + "px";
+    let safety = 80;
+    while (safety-- > 0 &&
+           (psDisplay.scrollWidth > maxW || psDisplay.scrollHeight > maxH) &&
+           size > 14) {
+      size *= 0.9;
+      psDisplay.style.fontSize = size + "px";
+    }
+  }
+
+  function showPoster(text) {
+    const txt = (text == null ? "" : String(text)).trim() || t("default_poster");
+    psText.value = txt;
+    psDisplay.textContent = txt;
+    psOverlay.classList.remove("hidden");
+    document.body.style.overflow = "hidden";
+    // Defer to next frame so layout is ready before measuring
+    requestAnimationFrame(fitPosterText);
+  }
+
+  function hidePoster() {
+    psOverlay.classList.add("hidden");
+    document.body.style.overflow = "";
+  }
+
+  psShow.addEventListener("click", () => showPoster(psText.value));
+  psText.addEventListener("keydown", (e) => {
+    if (e.key === "Enter") {
+      e.preventDefault();
+      showPoster(psText.value);
+    }
+  });
+  psClose.addEventListener("click", (e) => {
+    e.stopPropagation();
+    hidePoster();
+  });
+  psOverlay.addEventListener("click", () => hidePoster());
+  document.addEventListener("keydown", (e) => {
+    if (e.key === "Escape" && !psOverlay.classList.contains("hidden")) {
+      hidePoster();
+    }
+  });
+  window.addEventListener("resize", () => {
+    if (!psOverlay.classList.contains("hidden")) fitPosterText();
+  });
+
+  // Preset buttons: fill input + show poster immediately
+  document.querySelectorAll(".preset-btn").forEach((btn) => {
+    btn.addEventListener("click", () => {
+      const key = "preset_" + btn.dataset.preset;
+      const txt = t(key);
+      showPoster(txt);
+    });
   });
 
   // Detect default language from browser
