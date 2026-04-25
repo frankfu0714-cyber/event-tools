@@ -476,6 +476,69 @@
   }
   .notes-min:hover { border-color: var(--border-strong); }
 
+  /* Font size controls */
+  .size-ctrl {
+    display: inline-flex;
+    align-items: center;
+    gap: 4px;
+  }
+  .size-btn {
+    appearance: none;
+    border: 1px solid var(--border);
+    background: var(--surface);
+    color: var(--text);
+    border-radius: 6px;
+    font-size: 12px;
+    font-weight: 600;
+    width: 26px;
+    height: 24px;
+    cursor: pointer;
+    font-family: inherit;
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    padding: 0;
+    line-height: 1;
+    transition: border-color 0.15s ease, background 0.15s ease;
+  }
+  .size-btn:hover { border-color: var(--border-strong); }
+  .size-btn:disabled { opacity: 0.35; cursor: not-allowed; }
+  .size-readout {
+    font-size: 11px;
+    color: var(--muted);
+    min-width: 36px;
+    text-align: center;
+    font-variant-numeric: tabular-nums;
+  }
+  .poster-size-ctrl {
+    position: absolute;
+    bottom: 22px;
+    right: 24px;
+    display: inline-flex;
+    align-items: center;
+    gap: 6px;
+    z-index: 2;
+  }
+  .poster-size-ctrl .size-btn {
+    background: rgba(255, 255, 255, 0.1);
+    color: inherit;
+    border: 0;
+    width: 30px;
+    height: 30px;
+    border-radius: 50%;
+    font-size: 13px;
+    font-weight: 600;
+  }
+  .poster-size-ctrl .size-btn:hover {
+    background: rgba(255, 255, 255, 0.2);
+  }
+  .poster-size-ctrl .size-readout {
+    color: inherit;
+    opacity: 0.6;
+    font-size: 12px;
+    min-width: 38px;
+  }
+
   .hidden { display: none !important; }
 
   footer {
@@ -625,6 +688,11 @@
 
       <div class="notes-meta">
         <span><span id="nt-count">0</span> <span data-i18n="chars">characters</span></span>
+        <div class="size-ctrl" aria-label="Font size">
+          <button class="size-btn" id="nt-size-down" type="button" title="Smaller">A−</button>
+          <span class="size-readout" id="nt-size-readout">14px</span>
+          <button class="size-btn" id="nt-size-up" type="button" title="Larger">A+</button>
+        </div>
         <span class="notes-saved" id="nt-saved" data-i18n="saved_locally">Saved on this device</span>
       </div>
 
@@ -643,6 +711,11 @@
   <div id="ps-overlay" class="poster-overlay hidden" role="dialog" aria-modal="true">
     <button class="poster-close" id="ps-close" aria-label="Close" type="button">×</button>
     <div class="poster-text" id="ps-display"></div>
+    <div class="poster-size-ctrl" aria-label="Font size">
+      <button class="size-btn" id="ps-size-down" type="button" title="Smaller">A−</button>
+      <span class="size-readout" id="ps-size-readout">100%</span>
+      <button class="size-btn" id="ps-size-up" type="button" title="Larger">A+</button>
+    </div>
     <div class="poster-hint" data-i18n="poster_hint">Press ESC or click anywhere to close</div>
   </div>
 
@@ -651,6 +724,11 @@
     <div class="notes-overlay-head">
       <h2 data-i18n="notes_heading">Notes</h2>
       <span class="notes-overlay-meta"><span id="nt-count-max">0</span> <span data-i18n="chars">characters</span></span>
+      <div class="size-ctrl" aria-label="Font size">
+        <button class="size-btn" id="nt-size-down-max" type="button" title="Smaller">A−</button>
+        <span class="size-readout" id="nt-size-readout-max">14px</span>
+        <button class="size-btn" id="nt-size-up-max" type="button" title="Larger">A+</button>
+      </div>
       <button class="notes-min" id="nt-min" type="button" data-i18n="minimize_btn">Minimize</button>
     </div>
     <textarea id="nt-text-max" data-i18n-placeholder="notes_ph" placeholder="Type your notes here…"></textarea>
@@ -1141,6 +1219,33 @@
   const psOverlay = document.getElementById("ps-overlay");
   const psClose = document.getElementById("ps-close");
   const psDisplay = document.getElementById("ps-display");
+  const psSizeDown = document.getElementById("ps-size-down");
+  const psSizeUp = document.getElementById("ps-size-up");
+  const psSizeReadout = document.getElementById("ps-size-readout");
+
+  // Poster size scale: 0.5 → 1.5 (multiplies the auto-fit starting size)
+  const PS_SCALE_KEY = "event-tools-poster-scale-v1";
+  let psScale = (function () {
+    try {
+      const v = parseFloat(localStorage.getItem(PS_SCALE_KEY));
+      if (Number.isFinite(v) && v >= 0.4 && v <= 2.0) return v;
+    } catch (e) {}
+    return 1.0;
+  })();
+  function applyPosterScale() {
+    if (psSizeReadout) psSizeReadout.textContent = Math.round(psScale * 100) + "%";
+    if (psSizeDown) psSizeDown.disabled = psScale <= 0.5 + 0.001;
+    if (psSizeUp) psSizeUp.disabled = psScale >= 1.5 - 0.001;
+    try { localStorage.setItem(PS_SCALE_KEY, String(psScale)); } catch (e) {}
+  }
+  function bumpPosterScale(delta) {
+    const next = Math.max(0.5, Math.min(1.5, Math.round((psScale + delta) * 10) / 10));
+    if (next === psScale) return;
+    psScale = next;
+    applyPosterScale();
+    if (!psOverlay.classList.contains("hidden")) fitPosterText();
+  }
+  applyPosterScale();
 
   function fitPosterText() {
     if (!psDisplay) return;
@@ -1149,8 +1254,8 @@
     // Reserve room for close button + hint + side padding
     const maxW = W * 0.9;
     const maxH = H * 0.78;
-    // Start big, shrink until it fits
-    let size = Math.min(W * 0.9, H * 0.6);
+    // Start big, shrink until it fits. psScale multiplies the auto-fit result.
+    let size = Math.min(W * 0.9, H * 0.6) * psScale;
     psDisplay.style.fontSize = size + "px";
     let safety = 80;
     while (safety-- > 0 &&
@@ -1206,6 +1311,10 @@
     });
   });
 
+  // Poster size buttons (stop click bubble so the overlay doesn't close)
+  if (psSizeDown) psSizeDown.addEventListener("click", (e) => { e.stopPropagation(); bumpPosterScale(-0.1); });
+  if (psSizeUp) psSizeUp.addEventListener("click", (e) => { e.stopPropagation(); bumpPosterScale(0.1); });
+
   // ---------- Notes ----------
   const ntText = document.getElementById("nt-text");
   const ntTextMax = document.getElementById("nt-text-max");
@@ -1215,8 +1324,50 @@
   const ntClearBtn = document.getElementById("nt-clear");
   const ntCount = document.getElementById("nt-count");
   const ntCountMax = document.getElementById("nt-count-max");
+  const ntSizeDown = document.getElementById("nt-size-down");
+  const ntSizeUp = document.getElementById("nt-size-up");
+  const ntSizeReadout = document.getElementById("nt-size-readout");
+  const ntSizeDownMax = document.getElementById("nt-size-down-max");
+  const ntSizeUpMax = document.getElementById("nt-size-up-max");
+  const ntSizeReadoutMax = document.getElementById("nt-size-readout-max");
 
   const NT_KEY = "event-tools-notes-v1";
+  const NT_SIZE_KEY = "event-tools-notes-size-v1";
+
+  // Notes font size: 12 → 28 px (step 2)
+  let ntFontSize = (function () {
+    try {
+      const v = parseInt(localStorage.getItem(NT_SIZE_KEY), 10);
+      if (Number.isFinite(v) && v >= 12 && v <= 28) return v;
+    } catch (e) {}
+    return 14;
+  })();
+  function applyNotesSize() {
+    ntText.style.fontSize = ntFontSize + "px";
+    ntTextMax.style.fontSize = ntFontSize + "px";
+    const label = ntFontSize + "px";
+    if (ntSizeReadout) ntSizeReadout.textContent = label;
+    if (ntSizeReadoutMax) ntSizeReadoutMax.textContent = label;
+    const atMin = ntFontSize <= 12;
+    const atMax = ntFontSize >= 28;
+    if (ntSizeDown) ntSizeDown.disabled = atMin;
+    if (ntSizeUp) ntSizeUp.disabled = atMax;
+    if (ntSizeDownMax) ntSizeDownMax.disabled = atMin;
+    if (ntSizeUpMax) ntSizeUpMax.disabled = atMax;
+    try { localStorage.setItem(NT_SIZE_KEY, String(ntFontSize)); } catch (e) {}
+  }
+  function bumpNotesSize(delta) {
+    const next = Math.max(12, Math.min(28, ntFontSize + delta));
+    if (next === ntFontSize) return;
+    ntFontSize = next;
+    applyNotesSize();
+  }
+  applyNotesSize();
+  if (ntSizeDown) ntSizeDown.addEventListener("click", () => bumpNotesSize(-2));
+  if (ntSizeUp) ntSizeUp.addEventListener("click", () => bumpNotesSize(2));
+  if (ntSizeDownMax) ntSizeDownMax.addEventListener("click", () => bumpNotesSize(-2));
+  if (ntSizeUpMax) ntSizeUpMax.addEventListener("click", () => bumpNotesSize(2));
+
 
   function loadNotes() {
     try { return localStorage.getItem(NT_KEY) || ""; }
