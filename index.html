@@ -376,6 +376,106 @@
     letter-spacing: 0.04em;
   }
 
+  /* Notes */
+  .notes-textarea {
+    width: 100%;
+    min-height: 180px;
+    padding: 14px 16px;
+    background: var(--surface);
+    color: var(--text);
+    border: 1px solid var(--border);
+    border-radius: 10px;
+    font-size: 14px;
+    font-family: inherit;
+    line-height: 1.55;
+    outline: none;
+    resize: vertical;
+    transition: border-color 0.15s;
+  }
+  .notes-textarea:focus { border-color: var(--border-strong); }
+  .notes-meta {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    gap: 10px;
+    margin-top: 10px;
+    font-size: 12px;
+    color: var(--muted);
+  }
+  .notes-saved {
+    display: inline-flex;
+    align-items: center;
+    gap: 6px;
+  }
+  .notes-saved::before {
+    content: "";
+    display: inline-block;
+    width: 6px;
+    height: 6px;
+    border-radius: 50%;
+    background: #16a34a;
+  }
+  .notes-overlay {
+    position: fixed;
+    inset: 0;
+    background: var(--bg);
+    z-index: 900;
+    display: flex;
+    flex-direction: column;
+    padding: 18px 24px 24px;
+    animation: poster-fade 0.18s ease;
+  }
+  .notes-overlay-head {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    margin-bottom: 12px;
+    gap: 10px;
+  }
+  .notes-overlay-head h2 {
+    margin: 0;
+    font-size: 13px;
+    font-weight: 600;
+    letter-spacing: 0.06em;
+    text-transform: uppercase;
+    color: var(--muted);
+  }
+  .notes-overlay-meta {
+    margin-left: auto;
+    font-size: 12px;
+    color: var(--muted);
+  }
+  .notes-overlay textarea {
+    flex: 1;
+    width: 100%;
+    padding: 20px 22px;
+    border: 1px solid var(--border);
+    border-radius: 12px;
+    background: var(--surface);
+    color: var(--text);
+    font-size: 16px;
+    font-family: inherit;
+    line-height: 1.65;
+    outline: none;
+    resize: none;
+    transition: border-color 0.15s;
+  }
+  .notes-overlay textarea:focus { border-color: var(--border-strong); }
+  .notes-min {
+    appearance: none;
+    border: 1px solid var(--border);
+    background: var(--surface);
+    color: var(--text);
+    border-radius: 8px;
+    font-size: 13px;
+    font-weight: 500;
+    padding: 6px 12px;
+    cursor: pointer;
+    font-family: inherit;
+    transition: border-color 0.15s ease;
+  }
+  .notes-min:hover { border-color: var(--border-strong); }
+
   .hidden { display: none !important; }
 
   footer {
@@ -396,7 +496,7 @@
     <div class="topbar">
       <div class="lang-switch" role="tablist" aria-label="Language">
         <button class="lang-btn active" data-lang="en">EN</button>
-        <button class="lang-btn" data-lang="zh">ä¸­</button>
+        <button class="lang-btn" data-lang="zh">中</button>
       </div>
     </div>
 
@@ -514,6 +614,26 @@
       </div>
     </section>
 
+    <!-- NOTES -->
+    <section class="section" id="section-notes">
+      <div class="section-head">
+        <h2 data-i18n="notes_heading">Notes</h2>
+        <p class="sub" data-i18n="notes_sub">Scratch pad for the event.</p>
+      </div>
+
+      <textarea id="nt-text" class="notes-textarea" rows="8" data-i18n-placeholder="notes_ph" placeholder="Type your notes here…"></textarea>
+
+      <div class="notes-meta">
+        <span><span id="nt-count">0</span> <span data-i18n="chars">characters</span></span>
+        <span class="notes-saved" id="nt-saved" data-i18n="saved_locally">Saved on this device</span>
+      </div>
+
+      <div class="actions">
+        <button class="btn btn-primary" id="nt-max" data-i18n="maximize_btn">Maximize</button>
+        <button class="btn btn-ghost" id="nt-clear" data-i18n="notes_clear_btn">Clear</button>
+      </div>
+    </section>
+
     <footer>
       <span data-i18n="footer">No tracking, no ads, works offline.</span>
     </footer>
@@ -521,9 +641,19 @@
 
   <!-- POSTER OVERLAY -->
   <div id="ps-overlay" class="poster-overlay hidden" role="dialog" aria-modal="true">
-    <button class="poster-close" id="ps-close" aria-label="Close" type="button">Ã</button>
+    <button class="poster-close" id="ps-close" aria-label="Close" type="button">×</button>
     <div class="poster-text" id="ps-display"></div>
     <div class="poster-hint" data-i18n="poster_hint">Press ESC or click anywhere to close</div>
+  </div>
+
+  <!-- NOTES OVERLAY -->
+  <div id="nt-overlay" class="notes-overlay hidden" role="dialog" aria-modal="true">
+    <div class="notes-overlay-head">
+      <h2 data-i18n="notes_heading">Notes</h2>
+      <span class="notes-overlay-meta"><span id="nt-count-max">0</span> <span data-i18n="chars">characters</span></span>
+      <button class="notes-min" id="nt-min" type="button" data-i18n="minimize_btn">Minimize</button>
+    </div>
+    <textarea id="nt-text-max" data-i18n-placeholder="notes_ph" placeholder="Type your notes here…"></textarea>
   </div>
 
 <script>
@@ -578,55 +708,73 @@
       preset_brb: "Be Right Back",
       poster_hint: "Press ESC or click anywhere to close",
       default_poster: "Break Time",
+      notes_heading: "Notes",
+      notes_sub: "Scratch pad for the event.",
+      notes_ph: "Type your notes here…",
+      maximize_btn: "Maximize",
+      minimize_btn: "Minimize",
+      notes_clear_btn: "Clear",
+      chars: "characters",
+      saved_locally: "Saved on this device",
+      confirm_clear_notes: "Clear all notes?",
       footer: "No tracking, no ads, works offline.",
     },
     zh: {
-      title: "æ´»åå·¥å·",
-      tagline: "ç°¡ç´çé¨æ©æ½èèåæ¸è¨æå·¥å·ã",
-      picker_heading: "é¨æ©æ½è",
-      picker_sub: "å¨æå®ç¯åå§é¨æ©æ½åã",
-      min: "æå°å¼",
-      max: "æå¤§å¼",
-      unique_label: "éè¤",
-      allow_repeats: "åè¨±éè¤",
-      no_repeats: "ä¸éè¤",
-      pick_btn: "æ½ä¸åèç¢¼",
-      undo_btn: "å¾©å",
-      clear_btn: "å¨é¨æ¸é¤",
-      picked_heading: "å·²æ½åºèç¢¼",
-      no_picks: "å°ç¡ç´éã",
-      all_picked: "å¨é¨ {n} åèç¢¼é½å·²æ½å®ã",
-      clear_to_restart: "æ¸é¤ä»¥éæ°éå§ã",
-      invalid_numbers: "è«è¼¸å¥ææçæ¸å­ã",
-      cd_heading: "åæ¸è¨æ",
-      cd_sub: "ç­ææ´»åè¨æå¨ã",
-      event_title_label: "æ´»ååç¨±",
-      event_title_ph: "ä¾å¦ï¼ç ´å°ç°ç¯",
-      mins_label: "å",
-      secs_label: "ç§",
-      start_btn: "éå§",
-      pause_btn: "æ«å",
-      resume_btn: "ç¹¼çº",
-      reset_btn: "éè¨­",
-      minutes: "å",
-      seconds: "ç§",
-      counting_to: "é²è¡ä¸­ï¼",
-      default_event: "æ¨çæ´»å",
-      pick_time: "è«è¼¸å¥å¤§æ¼é¶çæéã",
-      its_time: "æéå°ï¼",
-      poster_heading: "æµ·å ±",
-      poster_sub: "å¨è¢å¹å¤§å­é¡¯ç¤ºã",
-      poster_label: "æå­",
-      poster_ph: "ä¾å¦ï¼ä¼æ¯æé",
-      show_btn: "é¡¯ç¤º",
-      preset_break: "ä¼æ¯æé",
-      preset_qa: "åèç­",
-      preset_discussion: "è¨è«æé",
-      preset_welcome: "æ­¡è¿",
-      preset_brb: "é¦¬ä¸åä¾",
-      poster_hint: "æ ESC æé»æä»»æèéé",
-      default_poster: "ä¼æ¯æé",
-      footer: "ç¡è¿½è¹¤ãç¡å»£åãå¯é¢ç·ä½¿ç¨ã",
+      title: "活動工具",
+      tagline: "簡約的隨機抽號與倒數計時工具。",
+      picker_heading: "隨機抽號",
+      picker_sub: "在指定範圍內隨機抽取。",
+      min: "最小值",
+      max: "最大值",
+      unique_label: "重複",
+      allow_repeats: "允許重複",
+      no_repeats: "不重複",
+      pick_btn: "抽一個號碼",
+      undo_btn: "復原",
+      clear_btn: "全部清除",
+      picked_heading: "已抽出號碼",
+      no_picks: "尚無紀錄。",
+      all_picked: "全部 {n} 個號碼都已抽完。",
+      clear_to_restart: "清除以重新開始。",
+      invalid_numbers: "請輸入有效的數字。",
+      cd_heading: "倒數計時",
+      cd_sub: "短時活動計時器。",
+      event_title_label: "活動名稱",
+      event_title_ph: "例如：破冰環節",
+      mins_label: "分",
+      secs_label: "秒",
+      start_btn: "開始",
+      pause_btn: "暫停",
+      resume_btn: "繼續",
+      reset_btn: "重設",
+      minutes: "分",
+      seconds: "秒",
+      counting_to: "進行中：",
+      default_event: "您的活動",
+      pick_time: "請輸入大於零的時間。",
+      its_time: "時間到！",
+      poster_heading: "海報",
+      poster_sub: "全螢幕大字顯示。",
+      poster_label: "文字",
+      poster_ph: "例如：休息時間",
+      show_btn: "顯示",
+      preset_break: "休息時間",
+      preset_qa: "問與答",
+      preset_discussion: "討論時間",
+      preset_welcome: "歡迎",
+      preset_brb: "馬上回來",
+      poster_hint: "按 ESC 或點擊任意處關閉",
+      default_poster: "休息時間",
+      notes_heading: "備忘",
+      notes_sub: "活動現場的記事本。",
+      notes_ph: "在此輸入備忘…",
+      maximize_btn: "放大",
+      minimize_btn: "縮小",
+      notes_clear_btn: "清除",
+      chars: "字元",
+      saved_locally: "已儲存在此裝置",
+      confirm_clear_notes: "確定要清除全部備忘？",
+      footer: "無追蹤、無廣告、可離線使用。",
     }
   };
 
@@ -759,7 +907,7 @@
     pkClear.disabled = true;
 
     const range = hi - lo + 1;
-    const totalDuration = 1700;  // ms â overall roll length
+    const totalDuration = 1700;  // ms — overall roll length
     const startInterval = 32;    // ms between number flips at start (fast)
     const endInterval = 320;     // ms between flips near the end (dramatic slowdown)
     const startTime = performance.now();
@@ -836,7 +984,7 @@
     if (pkUnique.value === "yes") {
       const used = new Set(history);
       if (used.size >= range) {
-        pkNum.textContent = "â";
+        pkNum.textContent = "✓";
         return;
       }
       do {
@@ -857,7 +1005,7 @@
     if (history.length === 0) return;
     history.pop();
     if (history.length === 0) {
-      pkNum.textContent = "â";
+      pkNum.textContent = "—";
       pkNum.classList.remove("rolling", "spinning", "bump");
       pkResult.classList.remove("flash");
     } else {
@@ -871,7 +1019,7 @@
   pkClear.addEventListener("click", () => {
     if (pkRolling) return;
     history.length = 0;
-    pkNum.textContent = "â";
+    pkNum.textContent = "—";
     pkNum.classList.remove("rolling", "spinning", "bump");
     pkResult.classList.remove("flash");
     renderPicked();
@@ -957,14 +1105,14 @@
   cdPause.addEventListener("click", () => {
     if (!cdStarted) return;
     if (cdTimer) {
-      // Currently running â pause
+      // Currently running → pause
       clearInterval(cdTimer);
       cdTimer = null;
       cdRemaining = Math.max(0, cdEndAt - Date.now());
       cdPaused = true;
       cdPause.textContent = t("resume_btn");
     } else if (cdRemaining > 0) {
-      // Paused â resume
+      // Paused → resume
       cdEndAt = Date.now() + cdRemaining;
       cdTimer = setInterval(tickCountdown, 250);
       cdPaused = false;
@@ -1056,6 +1204,91 @@
       const txt = t(key);
       showPoster(txt);
     });
+  });
+
+  // ---------- Notes ----------
+  const ntText = document.getElementById("nt-text");
+  const ntTextMax = document.getElementById("nt-text-max");
+  const ntOverlay = document.getElementById("nt-overlay");
+  const ntMaxBtn = document.getElementById("nt-max");
+  const ntMinBtn = document.getElementById("nt-min");
+  const ntClearBtn = document.getElementById("nt-clear");
+  const ntCount = document.getElementById("nt-count");
+  const ntCountMax = document.getElementById("nt-count-max");
+
+  const NT_KEY = "event-tools-notes-v1";
+
+  function loadNotes() {
+    try { return localStorage.getItem(NT_KEY) || ""; }
+    catch (e) { return ""; }
+  }
+  function saveNotes(v) {
+    try { localStorage.setItem(NT_KEY, v); } catch (e) {}
+  }
+  function syncCount(len) {
+    if (ntCount) ntCount.textContent = String(len);
+    if (ntCountMax) ntCountMax.textContent = String(len);
+  }
+
+  // Restore notes
+  {
+    const initial = loadNotes();
+    ntText.value = initial;
+    ntTextMax.value = initial;
+    syncCount(initial.length);
+  }
+
+  ntText.addEventListener("input", () => {
+    const v = ntText.value;
+    ntTextMax.value = v;
+    syncCount(v.length);
+    saveNotes(v);
+  });
+
+  ntTextMax.addEventListener("input", () => {
+    const v = ntTextMax.value;
+    ntText.value = v;
+    syncCount(v.length);
+    saveNotes(v);
+  });
+
+  function showNotesMax() {
+    ntTextMax.value = ntText.value;
+    syncCount(ntTextMax.value.length);
+    ntOverlay.classList.remove("hidden");
+    document.body.style.overflow = "hidden";
+    // Focus + move caret to end on next frame so the textarea is fully laid out
+    requestAnimationFrame(() => {
+      ntTextMax.focus();
+      const len = ntTextMax.value.length;
+      try { ntTextMax.setSelectionRange(len, len); } catch (e) {}
+    });
+  }
+
+  function hideNotesMax() {
+    ntText.value = ntTextMax.value;
+    syncCount(ntText.value.length);
+    saveNotes(ntText.value);
+    ntOverlay.classList.add("hidden");
+    document.body.style.overflow = "";
+  }
+
+  ntMaxBtn.addEventListener("click", showNotesMax);
+  ntMinBtn.addEventListener("click", hideNotesMax);
+  ntClearBtn.addEventListener("click", () => {
+    if (!ntText.value && !ntTextMax.value) return;
+    if (!window.confirm(t("confirm_clear_notes"))) return;
+    ntText.value = "";
+    ntTextMax.value = "";
+    syncCount(0);
+    saveNotes("");
+  });
+
+  // ESC closes notes overlay (in addition to poster overlay handler above)
+  document.addEventListener("keydown", (e) => {
+    if (e.key === "Escape" && !ntOverlay.classList.contains("hidden")) {
+      hideNotesMax();
+    }
   });
 
   // Detect default language from browser
