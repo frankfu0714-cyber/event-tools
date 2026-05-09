@@ -74,16 +74,18 @@
     line-height: 1.5;
   }
   .section { margin-bottom: 48px; }
+  .section.tool-hidden { display: none !important; }
   .section-head {
     display: flex;
     align-items: baseline;
-    justify-content: space-between;
+    gap: 12px;
     margin-bottom: 16px;
     padding-bottom: 10px;
     border-bottom: 1px solid var(--border);
   }
   .section-head h2 {
     margin: 0;
+    margin-right: auto;
     font-size: 15px;
     font-weight: 600;
     letter-spacing: 0.02em;
@@ -93,6 +95,90 @@
     margin: 0;
     color: var(--muted);
     font-size: 12px;
+  }
+  .tool-remove {
+    appearance: none;
+    border: 0;
+    background: transparent;
+    color: var(--muted);
+    font-size: 18px;
+    line-height: 1;
+    width: 24px;
+    height: 24px;
+    border-radius: 50%;
+    cursor: pointer;
+    font-family: inherit;
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    align-self: center;
+    transition: background 0.15s ease, color 0.15s ease;
+    flex-shrink: 0;
+  }
+  .tool-remove:hover {
+    background: var(--accent-soft);
+    color: var(--text);
+  }
+
+  /* Add tool */
+  .add-tool {
+    position: relative;
+    margin-top: 8px;
+    margin-bottom: 32px;
+    text-align: center;
+  }
+  .add-tool-menu {
+    position: absolute;
+    bottom: 100%;
+    left: 50%;
+    transform: translateX(-50%);
+    margin-bottom: 8px;
+    background: var(--surface);
+    border: 1px solid var(--border);
+    border-radius: 10px;
+    padding: 6px;
+    min-width: 200px;
+    box-shadow: 0 4px 16px rgba(0, 0, 0, 0.06);
+    display: flex;
+    flex-direction: column;
+    gap: 2px;
+    z-index: 50;
+  }
+  .add-tool-item {
+    appearance: none;
+    border: 0;
+    background: transparent;
+    color: var(--text);
+    font-family: inherit;
+    font-size: 14px;
+    text-align: left;
+    padding: 8px 12px;
+    border-radius: 6px;
+    cursor: pointer;
+    transition: background 0.1s ease;
+  }
+  .add-tool-item:hover { background: var(--accent-soft); }
+  .add-tool-item:disabled {
+    opacity: 0.35;
+    cursor: not-allowed;
+  }
+  .add-tool-item:disabled:hover { background: transparent; }
+  .add-tool-empty {
+    text-align: center;
+    color: var(--muted);
+    font-size: 13px;
+    padding: 24px 16px 32px;
+  }
+  .footer-sep { margin: 0 8px; opacity: 0.5; }
+  .footer-link {
+    color: inherit;
+    text-decoration: none;
+    border-bottom: 1px dotted var(--muted);
+    transition: color 0.15s ease, border-color 0.15s ease;
+  }
+  .footer-link:hover {
+    color: var(--text);
+    border-bottom-color: var(--text);
   }
   .row { display: flex; gap: 10px; flex-wrap: wrap; }
   .row > * { flex: 1; min-width: 120px; }
@@ -569,10 +655,11 @@
     </header>
 
     <!-- NUMBER PICKER (top) -->
-    <section class="section" id="section-picker">
+    <section class="section" id="section-picker" data-tool="picker">
       <div class="section-head">
         <h2 data-i18n="picker_heading">Number Picker</h2>
         <p class="sub" data-i18n="picker_sub">Random pick in a range.</p>
+        <button class="tool-remove" data-tool-remove="picker" type="button" data-i18n-title="remove_tool_title" title="Remove">×</button>
       </div>
 
       <div class="row">
@@ -615,10 +702,11 @@
     </section>
 
     <!-- COUNTDOWN (below) -->
-    <section class="section" id="section-countdown">
+    <section class="section" id="section-countdown" data-tool="countdown">
       <div class="section-head">
         <h2 data-i18n="cd_heading">Countdown</h2>
         <p class="sub" data-i18n="cd_sub">Short activity timer.</p>
+        <button class="tool-remove" data-tool-remove="countdown" type="button" data-i18n-title="remove_tool_title" title="Remove">×</button>
       </div>
 
       <div class="row">
@@ -653,10 +741,11 @@
     </section>
 
     <!-- POSTER -->
-    <section class="section" id="section-poster">
+    <section class="section" id="section-poster" data-tool="poster">
       <div class="section-head">
         <h2 data-i18n="poster_heading">Poster</h2>
         <p class="sub" data-i18n="poster_sub">Big text on screen.</p>
+        <button class="tool-remove" data-tool-remove="poster" type="button" data-i18n-title="remove_tool_title" title="Remove">×</button>
       </div>
 
       <div>
@@ -678,10 +767,11 @@
     </section>
 
     <!-- NOTES -->
-    <section class="section" id="section-notes">
+    <section class="section" id="section-notes" data-tool="notes">
       <div class="section-head">
         <h2 data-i18n="notes_heading">Notes</h2>
         <p class="sub" data-i18n="notes_sub">Scratch pad for the event.</p>
+        <button class="tool-remove" data-tool-remove="notes" type="button" data-i18n-title="remove_tool_title" title="Remove">×</button>
       </div>
 
       <textarea id="nt-text" class="notes-textarea" rows="8" data-i18n-placeholder="notes_ph" placeholder="Type your notes here…"></textarea>
@@ -702,8 +792,22 @@
       </div>
     </section>
 
+    <div class="add-tool-empty hidden" id="add-tool-empty" data-i18n="no_tools_hint">No tools yet. Add one below.</div>
+
+    <div class="add-tool" id="add-tool">
+      <button class="btn btn-ghost" id="add-tool-btn" type="button" data-i18n="add_tool_btn">+ Add tool</button>
+      <div class="add-tool-menu hidden" id="add-tool-menu" role="menu">
+        <button class="add-tool-item" data-add-tool="picker" type="button" data-i18n="picker_heading">Number Picker</button>
+        <button class="add-tool-item" data-add-tool="countdown" type="button" data-i18n="cd_heading">Countdown</button>
+        <button class="add-tool-item" data-add-tool="poster" type="button" data-i18n="poster_heading">Poster</button>
+        <button class="add-tool-item" data-add-tool="notes" type="button" data-i18n="notes_heading">Notes</button>
+      </div>
+    </div>
+
     <footer>
       <span data-i18n="footer">No tracking, no ads, works offline.</span>
+      <span class="footer-sep">·</span>
+      <a class="footer-link" href="mailto:goldotakutw@gmail.com?subject=Event%20Toolkit%20feedback" data-i18n="feedback_link">Send feedback</a>
     </footer>
   </div>
 
@@ -795,6 +899,10 @@
       chars: "characters",
       saved_locally: "Saved on this device",
       confirm_clear_notes: "Clear all notes?",
+      add_tool_btn: "+ Add tool",
+      remove_tool_title: "Remove tool",
+      no_tools_hint: "No tools yet. Add one below.",
+      feedback_link: "Send feedback",
       footer: "No tracking, no ads, works offline.",
     },
     zh: {
@@ -852,6 +960,10 @@
       chars: "字元",
       saved_locally: "已儲存在此裝置",
       confirm_clear_notes: "確定要清除全部備忘？",
+      add_tool_btn: "+ 新增工具",
+      remove_tool_title: "移除工具",
+      no_tools_hint: "目前沒有工具，請於下方新增。",
+      feedback_link: "意見回饋",
       footer: "無追蹤、無廣告、可離線使用。",
     }
   };
@@ -876,6 +988,10 @@
     document.querySelectorAll("[data-i18n-placeholder]").forEach(el => {
       const key = el.getAttribute("data-i18n-placeholder");
       el.setAttribute("placeholder", t(key));
+    });
+    document.querySelectorAll("[data-i18n-title]").forEach(el => {
+      const key = el.getAttribute("data-i18n-title");
+      el.setAttribute("title", t(key));
     });
 
     document.querySelectorAll(".lang-btn").forEach(b => {
@@ -1441,6 +1557,106 @@
       hideNotesMax();
     }
   });
+
+  // ---------- Modular tools (add / remove) ----------
+  const TOOL_IDS = ["picker", "countdown", "poster", "notes"];
+  const TOOL_SECTION_MAP = {
+    picker: "section-picker",
+    countdown: "section-countdown",
+    poster: "section-poster",
+    notes: "section-notes",
+  };
+  const ACTIVE_TOOLS_KEY = "event-tools-active-v1";
+
+  let activeTools = (function () {
+    try {
+      const raw = localStorage.getItem(ACTIVE_TOOLS_KEY);
+      if (raw) {
+        const arr = JSON.parse(raw);
+        if (Array.isArray(arr)) {
+          const filtered = arr.filter((id) => TOOL_IDS.includes(id));
+          return filtered;
+        }
+      }
+    } catch (e) {}
+    // Default for first-time visitors: just the number picker
+    return ["picker"];
+  })();
+
+  const addToolBtn = document.getElementById("add-tool-btn");
+  const addToolMenu = document.getElementById("add-tool-menu");
+  const addToolEmpty = document.getElementById("add-tool-empty");
+
+  function persistActiveTools() {
+    try { localStorage.setItem(ACTIVE_TOOLS_KEY, JSON.stringify(activeTools)); }
+    catch (e) {}
+  }
+
+  function applyToolVisibility() {
+    TOOL_IDS.forEach((id) => {
+      const section = document.getElementById(TOOL_SECTION_MAP[id]);
+      if (!section) return;
+      section.classList.toggle("tool-hidden", !activeTools.includes(id));
+    });
+    document.querySelectorAll("[data-add-tool]").forEach((btn) => {
+      btn.disabled = activeTools.includes(btn.dataset.addTool);
+    });
+    if (addToolEmpty) {
+      addToolEmpty.classList.toggle("hidden", activeTools.length > 0);
+    }
+  }
+
+  function closeAddMenu() {
+    if (addToolMenu) addToolMenu.classList.add("hidden");
+  }
+
+  function addTool(id) {
+    if (!TOOL_IDS.includes(id)) return;
+    if (activeTools.includes(id)) return;
+    activeTools.push(id);
+    // Keep canonical order regardless of add sequence
+    activeTools.sort((a, b) => TOOL_IDS.indexOf(a) - TOOL_IDS.indexOf(b));
+    persistActiveTools();
+    applyToolVisibility();
+    closeAddMenu();
+    requestAnimationFrame(() => {
+      const section = document.getElementById(TOOL_SECTION_MAP[id]);
+      if (section) section.scrollIntoView({ behavior: "smooth", block: "start" });
+    });
+  }
+
+  function removeTool(id) {
+    activeTools = activeTools.filter((x) => x !== id);
+    persistActiveTools();
+    applyToolVisibility();
+  }
+
+  document.querySelectorAll(".tool-remove").forEach((btn) => {
+    btn.addEventListener("click", () => removeTool(btn.dataset.toolRemove));
+  });
+
+  if (addToolBtn) {
+    addToolBtn.addEventListener("click", (e) => {
+      e.stopPropagation();
+      if (addToolMenu) addToolMenu.classList.toggle("hidden");
+    });
+  }
+  if (addToolMenu) {
+    addToolMenu.addEventListener("click", (e) => e.stopPropagation());
+  }
+  document.addEventListener("click", () => {
+    if (addToolMenu && !addToolMenu.classList.contains("hidden")) closeAddMenu();
+  });
+  document.addEventListener("keydown", (e) => {
+    if (e.key === "Escape" && addToolMenu && !addToolMenu.classList.contains("hidden")) {
+      closeAddMenu();
+    }
+  });
+  document.querySelectorAll("[data-add-tool]").forEach((btn) => {
+    btn.addEventListener("click", () => addTool(btn.dataset.addTool));
+  });
+
+  applyToolVisibility();
 
   // Detect default language from browser
   try {
