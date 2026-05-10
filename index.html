@@ -706,6 +706,137 @@
     <textarea id="nt-text-max" data-i18n-placeholder="notes_ph" placeholder="Type your notes here…"></textarea>
   </div>
 
+  <template id="tpl-picker"><section class="section" data-tool="picker">
+      <div class="section-head">
+        <h2 data-i18n="picker_heading">Number Picker</h2>
+        <p class="sub" data-i18n="picker_sub">Random pick in a range.</p>
+        <button class="tool-remove" type="button" data-i18n-title="remove_tool_title" title="Remove">×</button>
+      </div>
+
+      <div class="row">
+        <div>
+          <label for="pk-min" data-i18n="min">Minimum</label>
+          <input id="pk-min" data-role="pk-min" type="number" value="1" />
+        </div>
+        <div>
+          <label for="pk-max" data-i18n="max">Maximum</label>
+          <input id="pk-max" data-role="pk-max" type="number" value="100" />
+        </div>
+        <div>
+          <label for="pk-unique" data-i18n="unique_label">Repeats</label>
+          <select id="pk-unique" data-role="pk-unique">
+            <option value="no" data-i18n="allow_repeats">Allow repeats</option>
+            <option value="yes" data-i18n="no_repeats">No repeats</option>
+          </select>
+        </div>
+      </div>
+
+      <div class="actions">
+        <button class="btn btn-primary" id="pk-pick" data-role="pk-pick" data-i18n="pick_btn">Pick a number</button>
+        <button class="btn btn-ghost" id="pk-undo" data-role="pk-undo" data-i18n="undo_btn" disabled>Undo</button>
+        <button class="btn btn-ghost" id="pk-clear" data-role="pk-clear" data-i18n="clear_btn">Clear all</button>
+      </div>
+
+      <div class="picker-result" id="pk-result" data-role="pk-result">
+        <div class="picker-num" id="pk-num" data-role="pk-num">&mdash;</div>
+      </div>
+
+      <div class="picked-block">
+        <div class="picked-head">
+          <h3 data-i18n="picked_heading">Picked so far</h3>
+          <span class="picked-count" id="pk-count" data-role="pk-count">0</span>
+        </div>
+        <div class="picked-list" id="pk-list" data-role="pk-list">
+          <span class="picked-empty" data-i18n="no_picks">No picks yet.</span>
+        </div>
+      </div>
+    </section></template>
+  <template id="tpl-countdown"><section class="section" data-tool="countdown">
+      <div class="section-head">
+        <h2 data-i18n="cd_heading">Countdown</h2>
+        <p class="sub" data-i18n="cd_sub">Short activity timer.</p>
+        <button class="tool-remove" type="button" data-i18n-title="remove_tool_title" title="Remove">×</button>
+      </div>
+
+      <div class="row">
+        <div style="flex: 2">
+          <label for="cd-title" data-i18n="event_title_label">Activity name</label>
+          <input id="cd-title" data-role="cd-title" type="text" data-i18n-placeholder="event_title_ph" placeholder="e.g. Icebreaker round" />
+        </div>
+        <div>
+          <label for="cd-mins-in" data-i18n="mins_label">Minutes</label>
+          <input id="cd-mins-in" data-role="cd-mins-in" type="number" min="0" max="59" value="5" />
+        </div>
+        <div>
+          <label for="cd-secs-in" data-i18n="secs_label">Seconds</label>
+          <input id="cd-secs-in" data-role="cd-secs-in" type="number" min="0" max="59" value="0" />
+        </div>
+      </div>
+
+      <div class="actions">
+        <button class="btn btn-primary" id="cd-start" data-role="cd-start" data-i18n="start_btn">Start</button>
+        <button class="btn btn-ghost" id="cd-pause" data-role="cd-pause" data-i18n="pause_btn" disabled>Pause</button>
+        <button class="btn btn-ghost" id="cd-reset" data-role="cd-reset" data-i18n="reset_btn">Reset</button>
+      </div>
+
+      <div id="cd-output" data-role="cd-output" class="hidden">
+        <div class="countdown-display">
+          <div class="cd-cell"><div class="cd-num" id="cd-mins" data-role="cd-mins">05</div><div class="cd-label" data-i18n="minutes">Minutes</div></div>
+          <div class="cd-cell"><div class="cd-num" id="cd-secs" data-role="cd-secs">00</div><div class="cd-label" data-i18n="seconds">Seconds</div></div>
+        </div>
+        <div class="event-title"><span data-i18n="counting_to">Running:</span> <strong id="cd-show-title" data-role="cd-show-title" data-i18n="default_event">your activity</strong></div>
+        <div class="cd-status" id="cd-status" data-role="cd-status"></div>
+      </div>
+    </section></template>
+  <template id="tpl-poster"><section class="section" data-tool="poster">
+      <div class="section-head">
+        <h2 data-i18n="poster_heading">Poster</h2>
+        <p class="sub" data-i18n="poster_sub">Big text on screen.</p>
+        <button class="tool-remove" type="button" data-i18n-title="remove_tool_title" title="Remove">×</button>
+      </div>
+
+      <div>
+        <label for="ps-text" data-i18n="poster_label">Text</label>
+        <input id="ps-text" data-role="ps-text" type="text" data-i18n-placeholder="poster_ph" placeholder="e.g. Break Time" maxlength="60" />
+      </div>
+
+      <div class="poster-presets">
+        <button class="btn btn-ghost preset-btn" data-preset="break" data-i18n="preset_break">Break Time</button>
+        <button class="btn btn-ghost preset-btn" data-preset="qa" data-i18n="preset_qa">Q &amp; A</button>
+        <button class="btn btn-ghost preset-btn" data-preset="discussion" data-i18n="preset_discussion">Discussion</button>
+        <button class="btn btn-ghost preset-btn" data-preset="welcome" data-i18n="preset_welcome">Welcome</button>
+        <button class="btn btn-ghost preset-btn" data-preset="brb" data-i18n="preset_brb">Be Right Back</button>
+      </div>
+
+      <div class="actions">
+        <button class="btn btn-primary" id="ps-show" data-role="ps-show" data-i18n="show_btn">Show</button>
+      </div>
+    </section></template>
+  <template id="tpl-notes"><section class="section" data-tool="notes">
+      <div class="section-head">
+        <h2 data-i18n="notes_heading">Notes</h2>
+        <p class="sub" data-i18n="notes_sub">Scratch pad for the event.</p>
+        <button class="tool-remove" type="button" data-i18n-title="remove_tool_title" title="Remove">×</button>
+      </div>
+
+      <textarea id="nt-text" data-role="nt-text" class="notes-textarea" rows="8" data-i18n-placeholder="notes_ph" placeholder="Type your notes here…"></textarea>
+
+      <div class="notes-meta">
+        <span><span id="nt-count" data-role="nt-count">0</span> <span data-i18n="chars">characters</span></span>
+        <div class="size-ctrl" aria-label="Font size">
+          <button class="size-btn" id="nt-size-down" data-role="nt-size-down" type="button" title="Smaller">A−</button>
+          <span class="size-readout" id="nt-size-readout" data-role="nt-size-readout">14px</span>
+          <button class="size-btn" id="nt-size-up" data-role="nt-size-up" type="button" title="Larger">A+</button>
+        </div>
+        <span class="notes-saved" id="nt-saved" data-i18n="saved_locally">Saved on this device</span>
+      </div>
+
+      <div class="actions">
+        <button class="btn btn-primary" id="nt-max" data-role="nt-max" data-i18n="maximize_btn">Maximize</button>
+        <button class="btn btn-ghost" id="nt-clear" data-role="nt-clear" data-i18n="notes_clear_btn">Clear</button>
+      </div>
+    </section></template>
+
 <script>
 (function () {
   "use strict";
@@ -1568,135 +1699,5 @@
 })();
 </script>
 
-  <template id="tpl-picker"><section class="section" data-tool="picker">
-      <div class="section-head">
-        <h2 data-i18n="picker_heading">Number Picker</h2>
-        <p class="sub" data-i18n="picker_sub">Random pick in a range.</p>
-        <button class="tool-remove" type="button" data-i18n-title="remove_tool_title" title="Remove">×</button>
-      </div>
-
-      <div class="row">
-        <div>
-          <label for="pk-min" data-i18n="min">Minimum</label>
-          <input id="pk-min" data-role="pk-min" type="number" value="1" />
-        </div>
-        <div>
-          <label for="pk-max" data-i18n="max">Maximum</label>
-          <input id="pk-max" data-role="pk-max" type="number" value="100" />
-        </div>
-        <div>
-          <label for="pk-unique" data-i18n="unique_label">Repeats</label>
-          <select id="pk-unique" data-role="pk-unique">
-            <option value="no" data-i18n="allow_repeats">Allow repeats</option>
-            <option value="yes" data-i18n="no_repeats">No repeats</option>
-          </select>
-        </div>
-      </div>
-
-      <div class="actions">
-        <button class="btn btn-primary" id="pk-pick" data-role="pk-pick" data-i18n="pick_btn">Pick a number</button>
-        <button class="btn btn-ghost" id="pk-undo" data-role="pk-undo" data-i18n="undo_btn" disabled>Undo</button>
-        <button class="btn btn-ghost" id="pk-clear" data-role="pk-clear" data-i18n="clear_btn">Clear all</button>
-      </div>
-
-      <div class="picker-result" id="pk-result" data-role="pk-result">
-        <div class="picker-num" id="pk-num" data-role="pk-num">&mdash;</div>
-      </div>
-
-      <div class="picked-block">
-        <div class="picked-head">
-          <h3 data-i18n="picked_heading">Picked so far</h3>
-          <span class="picked-count" id="pk-count" data-role="pk-count">0</span>
-        </div>
-        <div class="picked-list" id="pk-list" data-role="pk-list">
-          <span class="picked-empty" data-i18n="no_picks">No picks yet.</span>
-        </div>
-      </div>
-    </section></template>
-  <template id="tpl-countdown"><section class="section" data-tool="countdown">
-      <div class="section-head">
-        <h2 data-i18n="cd_heading">Countdown</h2>
-        <p class="sub" data-i18n="cd_sub">Short activity timer.</p>
-        <button class="tool-remove" type="button" data-i18n-title="remove_tool_title" title="Remove">×</button>
-      </div>
-
-      <div class="row">
-        <div style="flex: 2">
-          <label for="cd-title" data-i18n="event_title_label">Activity name</label>
-          <input id="cd-title" data-role="cd-title" type="text" data-i18n-placeholder="event_title_ph" placeholder="e.g. Icebreaker round" />
-        </div>
-        <div>
-          <label for="cd-mins-in" data-i18n="mins_label">Minutes</label>
-          <input id="cd-mins-in" data-role="cd-mins-in" type="number" min="0" max="59" value="5" />
-        </div>
-        <div>
-          <label for="cd-secs-in" data-i18n="secs_label">Seconds</label>
-          <input id="cd-secs-in" data-role="cd-secs-in" type="number" min="0" max="59" value="0" />
-        </div>
-      </div>
-
-      <div class="actions">
-        <button class="btn btn-primary" id="cd-start" data-role="cd-start" data-i18n="start_btn">Start</button>
-        <button class="btn btn-ghost" id="cd-pause" data-role="cd-pause" data-i18n="pause_btn" disabled>Pause</button>
-        <button class="btn btn-ghost" id="cd-reset" data-role="cd-reset" data-i18n="reset_btn">Reset</button>
-      </div>
-
-      <div id="cd-output" data-role="cd-output" class="hidden">
-        <div class="countdown-display">
-          <div class="cd-cell"><div class="cd-num" id="cd-mins" data-role="cd-mins">05</div><div class="cd-label" data-i18n="minutes">Minutes</div></div>
-          <div class="cd-cell"><div class="cd-num" id="cd-secs" data-role="cd-secs">00</div><div class="cd-label" data-i18n="seconds">Seconds</div></div>
-        </div>
-        <div class="event-title"><span data-i18n="counting_to">Running:</span> <strong id="cd-show-title" data-role="cd-show-title" data-i18n="default_event">your activity</strong></div>
-        <div class="cd-status" id="cd-status" data-role="cd-status"></div>
-      </div>
-    </section></template>
-  <template id="tpl-poster"><section class="section" data-tool="poster">
-      <div class="section-head">
-        <h2 data-i18n="poster_heading">Poster</h2>
-        <p class="sub" data-i18n="poster_sub">Big text on screen.</p>
-        <button class="tool-remove" type="button" data-i18n-title="remove_tool_title" title="Remove">×</button>
-      </div>
-
-      <div>
-        <label for="ps-text" data-i18n="poster_label">Text</label>
-        <input id="ps-text" data-role="ps-text" type="text" data-i18n-placeholder="poster_ph" placeholder="e.g. Break Time" maxlength="60" />
-      </div>
-
-      <div class="poster-presets">
-        <button class="btn btn-ghost preset-btn" data-preset="break" data-i18n="preset_break">Break Time</button>
-        <button class="btn btn-ghost preset-btn" data-preset="qa" data-i18n="preset_qa">Q &amp; A</button>
-        <button class="btn btn-ghost preset-btn" data-preset="discussion" data-i18n="preset_discussion">Discussion</button>
-        <button class="btn btn-ghost preset-btn" data-preset="welcome" data-i18n="preset_welcome">Welcome</button>
-        <button class="btn btn-ghost preset-btn" data-preset="brb" data-i18n="preset_brb">Be Right Back</button>
-      </div>
-
-      <div class="actions">
-        <button class="btn btn-primary" id="ps-show" data-role="ps-show" data-i18n="show_btn">Show</button>
-      </div>
-    </section></template>
-  <template id="tpl-notes"><section class="section" data-tool="notes">
-      <div class="section-head">
-        <h2 data-i18n="notes_heading">Notes</h2>
-        <p class="sub" data-i18n="notes_sub">Scratch pad for the event.</p>
-        <button class="tool-remove" type="button" data-i18n-title="remove_tool_title" title="Remove">×</button>
-      </div>
-
-      <textarea id="nt-text" data-role="nt-text" class="notes-textarea" rows="8" data-i18n-placeholder="notes_ph" placeholder="Type your notes here…"></textarea>
-
-      <div class="notes-meta">
-        <span><span id="nt-count" data-role="nt-count">0</span> <span data-i18n="chars">characters</span></span>
-        <div class="size-ctrl" aria-label="Font size">
-          <button class="size-btn" id="nt-size-down" data-role="nt-size-down" type="button" title="Smaller">A−</button>
-          <span class="size-readout" id="nt-size-readout" data-role="nt-size-readout">14px</span>
-          <button class="size-btn" id="nt-size-up" data-role="nt-size-up" type="button" title="Larger">A+</button>
-        </div>
-        <span class="notes-saved" id="nt-saved" data-i18n="saved_locally">Saved on this device</span>
-      </div>
-
-      <div class="actions">
-        <button class="btn btn-primary" id="nt-max" data-role="nt-max" data-i18n="maximize_btn">Maximize</button>
-        <button class="btn btn-ghost" id="nt-clear" data-role="nt-clear" data-i18n="notes_clear_btn">Clear</button>
-      </div>
-    </section></template>
 </body>
 </html>
