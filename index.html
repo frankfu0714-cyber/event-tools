@@ -726,7 +726,7 @@
           <label for="pk-unique" data-i18n="unique_label">Repeats</label>
           <select id="pk-unique" data-role="pk-unique">
             <option value="no" data-i18n="allow_repeats">Allow repeats</option>
-            <option value="yes" data-i18n="no_repeats">No repeats</option>
+            <option value="yes" data-i18n="no_repeats" selected>No repeats</option>
           </select>
         </div>
       </div>
@@ -779,7 +779,7 @@
         <button class="btn btn-ghost" id="cd-reset" data-role="cd-reset" data-i18n="reset_btn">Reset</button>
       </div>
 
-      <div id="cd-output" data-role="cd-output" class="hidden">
+      <div id="cd-output" data-role="cd-output">
         <div class="countdown-display">
           <div class="cd-cell"><div class="cd-num" id="cd-mins" data-role="cd-mins">05</div><div class="cd-label" data-i18n="minutes">Minutes</div></div>
           <div class="cd-cell"><div class="cd-num" id="cd-secs" data-role="cd-secs">00</div><div class="cd-label" data-i18n="seconds">Seconds</div></div>
@@ -1436,14 +1436,35 @@
       cdPaused = false;
       cdRemaining = 0;
       cdEndAt = 0;
-      cdOutput.classList.add("hidden");
       cdStatus.classList.remove("done");
       cdStatus.textContent = "";
-      cdMinsEl.classList.remove("warning");
-      cdSecsEl.classList.remove("warning");
       cdPause.disabled = true;
       cdPause.textContent = t("pause_btn");
+      // Show the configured time again (don't hide the clock)
+      renderInputs();
     });
+
+    function renderInputs() {
+      const mins = parseInt(cdMinsIn.value, 10) || 0;
+      const secs = parseInt(cdSecsIn.value, 10) || 0;
+      renderRemaining((mins * 60 + secs) * 1000);
+      cdShowTitle.textContent = cdTitle.value.trim() || t("default_event");
+    }
+
+    // Live-update display from inputs while not running
+    function maybeUpdateFromInputs() {
+      if (cdStarted && cdTimer) return;
+      renderInputs();
+    }
+    cdMinsIn.addEventListener("input", maybeUpdateFromInputs);
+    cdSecsIn.addEventListener("input", maybeUpdateFromInputs);
+    cdTitle.addEventListener("input", () => {
+      if (cdStarted && cdTimer) return;
+      cdShowTitle.textContent = cdTitle.value.trim() || t("default_event");
+    });
+
+    // Initial paint so the clock is visible by default
+    renderInputs();
 
     return {
       onLangChange() {
