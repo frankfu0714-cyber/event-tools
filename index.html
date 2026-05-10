@@ -655,144 +655,12 @@
     </header>
 
     <!-- NUMBER PICKER (top) -->
-    <section class="section" id="section-picker" data-tool="picker">
-      <div class="section-head">
-        <h2 data-i18n="picker_heading">Number Picker</h2>
-        <p class="sub" data-i18n="picker_sub">Random pick in a range.</p>
-        <button class="tool-remove" data-tool-remove="picker" type="button" data-i18n-title="remove_tool_title" title="Remove">×</button>
-      </div>
-
-      <div class="row">
-        <div>
-          <label for="pk-min" data-i18n="min">Minimum</label>
-          <input id="pk-min" type="number" value="1" />
-        </div>
-        <div>
-          <label for="pk-max" data-i18n="max">Maximum</label>
-          <input id="pk-max" type="number" value="100" />
-        </div>
-        <div>
-          <label for="pk-unique" data-i18n="unique_label">Repeats</label>
-          <select id="pk-unique">
-            <option value="no" data-i18n="allow_repeats">Allow repeats</option>
-            <option value="yes" data-i18n="no_repeats">No repeats</option>
-          </select>
-        </div>
-      </div>
-
-      <div class="actions">
-        <button class="btn btn-primary" id="pk-pick" data-i18n="pick_btn">Pick a number</button>
-        <button class="btn btn-ghost" id="pk-undo" data-i18n="undo_btn" disabled>Undo</button>
-        <button class="btn btn-ghost" id="pk-clear" data-i18n="clear_btn">Clear all</button>
-      </div>
-
-      <div class="picker-result" id="pk-result">
-        <div class="picker-num" id="pk-num">&mdash;</div>
-      </div>
-
-      <div class="picked-block">
-        <div class="picked-head">
-          <h3 data-i18n="picked_heading">Picked so far</h3>
-          <span class="picked-count" id="pk-count">0</span>
-        </div>
-        <div class="picked-list" id="pk-list">
-          <span class="picked-empty" data-i18n="no_picks">No picks yet.</span>
-        </div>
-      </div>
-    </section>
+    <div id="tools-host"></div>
 
     <!-- COUNTDOWN (below) -->
-    <section class="section" id="section-countdown" data-tool="countdown">
-      <div class="section-head">
-        <h2 data-i18n="cd_heading">Countdown</h2>
-        <p class="sub" data-i18n="cd_sub">Short activity timer.</p>
-        <button class="tool-remove" data-tool-remove="countdown" type="button" data-i18n-title="remove_tool_title" title="Remove">×</button>
-      </div>
-
-      <div class="row">
-        <div style="flex: 2">
-          <label for="cd-title" data-i18n="event_title_label">Activity name</label>
-          <input id="cd-title" type="text" data-i18n-placeholder="event_title_ph" placeholder="e.g. Icebreaker round" />
-        </div>
-        <div>
-          <label for="cd-mins-in" data-i18n="mins_label">Minutes</label>
-          <input id="cd-mins-in" type="number" min="0" max="59" value="5" />
-        </div>
-        <div>
-          <label for="cd-secs-in" data-i18n="secs_label">Seconds</label>
-          <input id="cd-secs-in" type="number" min="0" max="59" value="0" />
-        </div>
-      </div>
-
-      <div class="actions">
-        <button class="btn btn-primary" id="cd-start" data-i18n="start_btn">Start</button>
-        <button class="btn btn-ghost" id="cd-pause" data-i18n="pause_btn" disabled>Pause</button>
-        <button class="btn btn-ghost" id="cd-reset" data-i18n="reset_btn">Reset</button>
-      </div>
-
-      <div id="cd-output" class="hidden">
-        <div class="countdown-display">
-          <div class="cd-cell"><div class="cd-num" id="cd-mins">05</div><div class="cd-label" data-i18n="minutes">Minutes</div></div>
-          <div class="cd-cell"><div class="cd-num" id="cd-secs">00</div><div class="cd-label" data-i18n="seconds">Seconds</div></div>
-        </div>
-        <div class="event-title"><span data-i18n="counting_to">Running:</span> <strong id="cd-show-title" data-i18n="default_event">your activity</strong></div>
-        <div class="cd-status" id="cd-status"></div>
-      </div>
-    </section>
-
-    <!-- POSTER -->
-    <section class="section" id="section-poster" data-tool="poster">
-      <div class="section-head">
-        <h2 data-i18n="poster_heading">Poster</h2>
-        <p class="sub" data-i18n="poster_sub">Big text on screen.</p>
-        <button class="tool-remove" data-tool-remove="poster" type="button" data-i18n-title="remove_tool_title" title="Remove">×</button>
-      </div>
-
-      <div>
-        <label for="ps-text" data-i18n="poster_label">Text</label>
-        <input id="ps-text" type="text" data-i18n-placeholder="poster_ph" placeholder="e.g. Break Time" maxlength="60" />
-      </div>
-
-      <div class="poster-presets">
-        <button class="btn btn-ghost preset-btn" data-preset="break" data-i18n="preset_break">Break Time</button>
-        <button class="btn btn-ghost preset-btn" data-preset="qa" data-i18n="preset_qa">Q &amp; A</button>
-        <button class="btn btn-ghost preset-btn" data-preset="discussion" data-i18n="preset_discussion">Discussion</button>
-        <button class="btn btn-ghost preset-btn" data-preset="welcome" data-i18n="preset_welcome">Welcome</button>
-        <button class="btn btn-ghost preset-btn" data-preset="brb" data-i18n="preset_brb">Be Right Back</button>
-      </div>
-
-      <div class="actions">
-        <button class="btn btn-primary" id="ps-show" data-i18n="show_btn">Show</button>
-      </div>
-    </section>
-
-    <!-- NOTES -->
-    <section class="section" id="section-notes" data-tool="notes">
-      <div class="section-head">
-        <h2 data-i18n="notes_heading">Notes</h2>
-        <p class="sub" data-i18n="notes_sub">Scratch pad for the event.</p>
-        <button class="tool-remove" data-tool-remove="notes" type="button" data-i18n-title="remove_tool_title" title="Remove">×</button>
-      </div>
-
-      <textarea id="nt-text" class="notes-textarea" rows="8" data-i18n-placeholder="notes_ph" placeholder="Type your notes here…"></textarea>
-
-      <div class="notes-meta">
-        <span><span id="nt-count">0</span> <span data-i18n="chars">characters</span></span>
-        <div class="size-ctrl" aria-label="Font size">
-          <button class="size-btn" id="nt-size-down" type="button" title="Smaller">A−</button>
-          <span class="size-readout" id="nt-size-readout">14px</span>
-          <button class="size-btn" id="nt-size-up" type="button" title="Larger">A+</button>
-        </div>
-        <span class="notes-saved" id="nt-saved" data-i18n="saved_locally">Saved on this device</span>
-      </div>
-
-      <div class="actions">
-        <button class="btn btn-primary" id="nt-max" data-i18n="maximize_btn">Maximize</button>
-        <button class="btn btn-ghost" id="nt-clear" data-i18n="notes_clear_btn">Clear</button>
-      </div>
-    </section>
-
-    <div class="add-tool-empty hidden" id="add-tool-empty" data-i18n="no_tools_hint">No tools yet. Add one below.</div>
+<!-- POSTER -->
+<!-- NOTES -->
+<div class="add-tool-empty hidden" id="add-tool-empty" data-i18n="no_tools_hint">No tools yet. Add one below.</div>
 
     <div class="add-tool" id="add-tool">
       <button class="btn btn-ghost" id="add-tool-btn" type="button" data-i18n="add_tool_btn">+ Add tool</button>
@@ -976,41 +844,27 @@
     return s;
   }
 
+  function applyLangToTree(root) {
+    root.querySelectorAll("[data-i18n]").forEach(el => {
+      el.textContent = t(el.getAttribute("data-i18n"));
+    });
+    root.querySelectorAll("[data-i18n-placeholder]").forEach(el => {
+      el.setAttribute("placeholder", t(el.getAttribute("data-i18n-placeholder")));
+    });
+    root.querySelectorAll("[data-i18n-title]").forEach(el => {
+      el.setAttribute("title", t(el.getAttribute("data-i18n-title")));
+    });
+  }
+
   function applyLanguage(lang) {
     currentLang = lang;
     document.documentElement.lang = lang === "zh" ? "zh-Hant" : "en";
     document.title = t("title");
-
-    document.querySelectorAll("[data-i18n]").forEach(el => {
-      const key = el.getAttribute("data-i18n");
-      el.textContent = t(key);
-    });
-    document.querySelectorAll("[data-i18n-placeholder]").forEach(el => {
-      const key = el.getAttribute("data-i18n-placeholder");
-      el.setAttribute("placeholder", t(key));
-    });
-    document.querySelectorAll("[data-i18n-title]").forEach(el => {
-      const key = el.getAttribute("data-i18n-title");
-      el.setAttribute("title", t(key));
-    });
-
+    applyLangToTree(document);
     document.querySelectorAll(".lang-btn").forEach(b => {
       b.classList.toggle("active", b.dataset.lang === lang);
     });
-
-    // Re-render dynamic bits
-    renderPicked();
-    // Pause button may show Resume
-    if (cdPaused && cdTimer === null && cdRemaining > 0 && cdStarted) {
-      cdPause.textContent = t("resume_btn");
-    } else {
-      cdPause.textContent = t("pause_btn");
-    }
-    // Update event title text
-    if (cdStarted) {
-      cdShowTitle.textContent = cdTitle.value.trim() || t("default_event");
-      if (cdStatus.classList.contains("done")) cdStatus.textContent = t("its_time");
-    }
+    instances.forEach(inst => { if (inst.onLangChange) inst.onLangChange(); });
   }
 
   document.querySelectorAll(".lang-btn").forEach(btn => {
@@ -1034,304 +888,28 @@
     const ctx = ensureAudio();
     if (!ctx) return;
     const base = ctx.currentTime + 0.02;
-    // Three short beeps, last one held slightly longer.
     const beeps = [
       { at: 0.00, freq: 880, dur: 0.18 },
       { at: 0.28, freq: 880, dur: 0.18 },
       { at: 0.56, freq: 1175, dur: 0.42 },
     ];
     beeps.forEach(b => {
-      const t = base + b.at;
+      const t0 = base + b.at;
       const osc = ctx.createOscillator();
       const gain = ctx.createGain();
       osc.type = "sine";
-      osc.frequency.setValueAtTime(b.freq, t);
-      gain.gain.setValueAtTime(0, t);
-      gain.gain.linearRampToValueAtTime(0.25, t + 0.01);
-      gain.gain.linearRampToValueAtTime(0.22, t + b.dur - 0.04);
-      gain.gain.linearRampToValueAtTime(0, t + b.dur);
+      osc.frequency.setValueAtTime(b.freq, t0);
+      gain.gain.setValueAtTime(0, t0);
+      gain.gain.linearRampToValueAtTime(0.25, t0 + 0.01);
+      gain.gain.linearRampToValueAtTime(0.22, t0 + b.dur - 0.04);
+      gain.gain.linearRampToValueAtTime(0, t0 + b.dur);
       osc.connect(gain).connect(ctx.destination);
-      osc.start(t);
-      osc.stop(t + b.dur + 0.02);
+      osc.start(t0);
+      osc.stop(t0 + b.dur + 0.02);
     });
   }
 
-  // ---------- Picker ----------
-  const pkMin = document.getElementById("pk-min");
-  const pkMax = document.getElementById("pk-max");
-  const pkUnique = document.getElementById("pk-unique");
-  const pkPick = document.getElementById("pk-pick");
-  const pkUndo = document.getElementById("pk-undo");
-  const pkClear = document.getElementById("pk-clear");
-  const pkNum = document.getElementById("pk-num");
-  const pkResult = document.getElementById("pk-result");
-  const pkList = document.getElementById("pk-list");
-  const pkCount = document.getElementById("pk-count");
-
-  const history = [];
-  let pkRolling = false;
-
-  function renderPicked() {
-    pkCount.textContent = String(history.length);
-    if (history.length === 0) {
-      pkList.innerHTML = `<span class="picked-empty">${t("no_picks")}</span>`;
-      pkUndo.disabled = true;
-      return;
-    }
-    pkUndo.disabled = false;
-    const lastIdx = history.length - 1;
-    pkList.innerHTML = history
-      .map((n, i) => `<span class="pick-chip${i === lastIdx ? ' latest' : ''}">${n}</span>`)
-      .join("");
-  }
-
-  function triggerPickAnim() {
-    pkNum.classList.remove("rolling");
-    pkResult.classList.remove("flash");
-    void pkNum.offsetWidth;
-    pkNum.classList.add("rolling");
-    pkResult.classList.add("flash");
-  }
-
-  function rollAndReveal(finalPick, lo, hi) {
-    if (pkRolling) return;
-    pkRolling = true;
-    pkPick.disabled = true;
-    pkUndo.disabled = true;
-    pkClear.disabled = true;
-
-    const range = hi - lo + 1;
-    const totalDuration = 1700;  // ms — overall roll length
-    const startInterval = 32;    // ms between number flips at start (fast)
-    const endInterval = 320;     // ms between flips near the end (dramatic slowdown)
-    const startTime = performance.now();
-
-    // Reset visual state and enter "spinning" mode (muted color, per-flip drop)
-    pkNum.classList.remove("rolling", "bump");
-    pkResult.classList.remove("flash");
-    pkNum.classList.add("spinning");
-
-    function randomOther(exclude) {
-      if (range <= 1) return lo;
-      let n;
-      // Avoid repeating the same number twice in a row so it reads as rolling
-      do { n = Math.floor(Math.random() * range) + lo; } while (n === exclude);
-      return n;
-    }
-
-    let last = null;
-
-    function step() {
-      const elapsed = performance.now() - startTime;
-      const progress = Math.min(1, elapsed / totalDuration);
-
-      if (progress >= 1) {
-        // Land on the real pick with a pop + flash
-        pkNum.classList.remove("spinning", "bump");
-        pkNum.textContent = String(finalPick);
-        // force a reflow so the animation restarts cleanly
-        void pkNum.offsetWidth;
-        pkNum.classList.add("rolling");
-        pkResult.classList.add("flash");
-
-        history.push(finalPick);
-        renderPicked(); // re-enables undo based on history
-
-        pkRolling = false;
-        pkPick.disabled = false;
-        pkClear.disabled = false;
-        return;
-      }
-
-      // Ease-IN on the interval: stay fast for most of the duration,
-      // slow dramatically only at the very end. Uses progress^4.
-      const eased = Math.pow(progress, 4);
-      const interval = startInterval + (endInterval - startInterval) * eased;
-
-      // Flip to a new number with a "drop-in" bump animation
-      last = randomOther(last);
-      pkNum.classList.remove("bump");
-      void pkNum.offsetWidth;
-      pkNum.textContent = String(last);
-      pkNum.classList.add("bump");
-
-      setTimeout(step, interval);
-    }
-
-    step();
-  }
-
-  pkPick.addEventListener("click", () => {
-    if (pkRolling) return;
-
-    const min = parseInt(pkMin.value, 10);
-    const max = parseInt(pkMax.value, 10);
-    if (!Number.isFinite(min) || !Number.isFinite(max)) {
-      pkNum.textContent = "?";
-      return;
-    }
-    const lo = Math.min(min, max);
-    const hi = Math.max(min, max);
-    const range = hi - lo + 1;
-
-    let pick;
-    if (pkUnique.value === "yes") {
-      const used = new Set(history);
-      if (used.size >= range) {
-        pkNum.textContent = "✓";
-        return;
-      }
-      do {
-        pick = Math.floor(Math.random() * range) + lo;
-      } while (used.has(pick));
-    } else {
-      pick = Math.floor(Math.random() * range) + lo;
-    }
-
-    // Unlock audio via this user gesture so the timer beep is free to play later
-    ensureAudio();
-
-    rollAndReveal(pick, lo, hi);
-  });
-
-  pkUndo.addEventListener("click", () => {
-    if (pkRolling) return;
-    if (history.length === 0) return;
-    history.pop();
-    if (history.length === 0) {
-      pkNum.textContent = "—";
-      pkNum.classList.remove("rolling", "spinning", "bump");
-      pkResult.classList.remove("flash");
-    } else {
-      pkNum.textContent = String(history[history.length - 1]);
-      pkNum.classList.remove("spinning", "bump");
-      triggerPickAnim();
-    }
-    renderPicked();
-  });
-
-  pkClear.addEventListener("click", () => {
-    if (pkRolling) return;
-    history.length = 0;
-    pkNum.textContent = "—";
-    pkNum.classList.remove("rolling", "spinning", "bump");
-    pkResult.classList.remove("flash");
-    renderPicked();
-  });
-
-  // ---------- Countdown ----------
-  const cdTitle = document.getElementById("cd-title");
-  const cdMinsIn = document.getElementById("cd-mins-in");
-  const cdSecsIn = document.getElementById("cd-secs-in");
-  const cdStart = document.getElementById("cd-start");
-  const cdPause = document.getElementById("cd-pause");
-  const cdReset = document.getElementById("cd-reset");
-  const cdOutput = document.getElementById("cd-output");
-  const cdShowTitle = document.getElementById("cd-show-title");
-  const cdStatus = document.getElementById("cd-status");
-  const cdMinsEl = document.getElementById("cd-mins");
-  const cdSecsEl = document.getElementById("cd-secs");
-
-  function pad2(n) { return String(n).padStart(2, "0"); }
-
-  let cdTimer = null;
-  let cdRemaining = 0;   // milliseconds
-  let cdEndAt = 0;
-  let cdStarted = false;
-  let cdPaused = false;
-
-  function renderRemaining(ms) {
-    const totalSec = Math.max(0, Math.ceil(ms / 1000));
-    const m = Math.floor(totalSec / 60);
-    const s = totalSec % 60;
-    cdMinsEl.textContent = pad2(m);
-    cdSecsEl.textContent = pad2(s);
-    // Warning color under 10 seconds total
-    const lowTime = totalSec <= 10 && totalSec > 0;
-    cdMinsEl.classList.toggle("warning", lowTime);
-    cdSecsEl.classList.toggle("warning", lowTime);
-  }
-
-  function tickCountdown() {
-    const now = Date.now();
-    const diff = cdEndAt - now;
-    if (diff <= 0) {
-      renderRemaining(0);
-      cdStatus.textContent = t("its_time");
-      cdStatus.classList.add("done");
-      clearInterval(cdTimer);
-      cdTimer = null;
-      cdPause.disabled = true;
-      cdRemaining = 0;
-      playBeepSequence();
-      return;
-    }
-    renderRemaining(diff);
-  }
-
-  cdStart.addEventListener("click", () => {
-    // Unlock the audio context on this user gesture so the end-of-time beep is allowed to play.
-    ensureAudio();
-    const mins = parseInt(cdMinsIn.value, 10) || 0;
-    const secs = parseInt(cdSecsIn.value, 10) || 0;
-    const totalMs = (mins * 60 + secs) * 1000;
-    if (totalMs <= 0) {
-      cdOutput.classList.remove("hidden");
-      cdStatus.classList.remove("done");
-      cdStatus.textContent = t("pick_time");
-      return;
-    }
-    cdRemaining = totalMs;
-    cdEndAt = Date.now() + totalMs;
-    cdStarted = true;
-    cdPaused = false;
-    cdShowTitle.textContent = cdTitle.value.trim() || t("default_event");
-    cdStatus.classList.remove("done");
-    cdStatus.textContent = "";
-    cdOutput.classList.remove("hidden");
-    renderRemaining(totalMs);
-    if (cdTimer) clearInterval(cdTimer);
-    cdTimer = setInterval(tickCountdown, 250);
-    cdPause.disabled = false;
-    cdPause.textContent = t("pause_btn");
-  });
-
-  cdPause.addEventListener("click", () => {
-    if (!cdStarted) return;
-    if (cdTimer) {
-      // Currently running → pause
-      clearInterval(cdTimer);
-      cdTimer = null;
-      cdRemaining = Math.max(0, cdEndAt - Date.now());
-      cdPaused = true;
-      cdPause.textContent = t("resume_btn");
-    } else if (cdRemaining > 0) {
-      // Paused → resume
-      cdEndAt = Date.now() + cdRemaining;
-      cdTimer = setInterval(tickCountdown, 250);
-      cdPaused = false;
-      cdPause.textContent = t("pause_btn");
-    }
-  });
-
-  cdReset.addEventListener("click", () => {
-    if (cdTimer) { clearInterval(cdTimer); cdTimer = null; }
-    cdStarted = false;
-    cdPaused = false;
-    cdRemaining = 0;
-    cdEndAt = 0;
-    cdOutput.classList.add("hidden");
-    cdStatus.classList.remove("done");
-    cdStatus.textContent = "";
-    cdMinsEl.classList.remove("warning");
-    cdSecsEl.classList.remove("warning");
-    cdPause.disabled = true;
-    cdPause.textContent = t("pause_btn");
-  });
-
-  // ---------- Poster ----------
-  const psText = document.getElementById("ps-text");
-  const psShow = document.getElementById("ps-show");
+  // ---------- Poster overlay (singleton) ----------
   const psOverlay = document.getElementById("ps-overlay");
   const psClose = document.getElementById("ps-close");
   const psDisplay = document.getElementById("ps-display");
@@ -1339,7 +917,6 @@
   const psSizeUp = document.getElementById("ps-size-up");
   const psSizeReadout = document.getElementById("ps-size-readout");
 
-  // Poster size scale: 0.5 → 1.5 (multiplies the auto-fit starting size)
   const PS_SCALE_KEY = "event-tools-poster-scale-v1";
   let psScale = (function () {
     try {
@@ -1367,10 +944,8 @@
     if (!psDisplay) return;
     const W = window.innerWidth;
     const H = window.innerHeight;
-    // Reserve room for close button + hint + side padding
     const maxW = W * 0.9;
     const maxH = H * 0.78;
-    // Start big, shrink until it fits. psScale multiplies the auto-fit result.
     let size = Math.min(W * 0.9, H * 0.6) * psScale;
     psDisplay.style.fontSize = size + "px";
     let safety = 80;
@@ -1381,76 +956,38 @@
       psDisplay.style.fontSize = size + "px";
     }
   }
-
   function showPoster(text) {
     const txt = (text == null ? "" : String(text)).trim() || t("default_poster");
-    psText.value = txt;
     psDisplay.textContent = txt;
     psOverlay.classList.remove("hidden");
     document.body.style.overflow = "hidden";
-    // Defer to next frame so layout is ready before measuring
     requestAnimationFrame(fitPosterText);
   }
-
   function hidePoster() {
     psOverlay.classList.add("hidden");
     document.body.style.overflow = "";
   }
-
-  psShow.addEventListener("click", () => showPoster(psText.value));
-  psText.addEventListener("keydown", (e) => {
-    if (e.key === "Enter") {
-      e.preventDefault();
-      showPoster(psText.value);
-    }
-  });
-  psClose.addEventListener("click", (e) => {
-    e.stopPropagation();
-    hidePoster();
-  });
-  psOverlay.addEventListener("click", () => hidePoster());
+  if (psClose) psClose.addEventListener("click", (e) => { e.stopPropagation(); hidePoster(); });
+  if (psOverlay) psOverlay.addEventListener("click", () => hidePoster());
   document.addEventListener("keydown", (e) => {
-    if (e.key === "Escape" && !psOverlay.classList.contains("hidden")) {
-      hidePoster();
-    }
+    if (psOverlay && e.key === "Escape" && !psOverlay.classList.contains("hidden")) hidePoster();
   });
   window.addEventListener("resize", () => {
-    if (!psOverlay.classList.contains("hidden")) fitPosterText();
+    if (psOverlay && !psOverlay.classList.contains("hidden")) fitPosterText();
   });
-
-  // Preset buttons: fill input + show poster immediately
-  document.querySelectorAll(".preset-btn").forEach((btn) => {
-    btn.addEventListener("click", () => {
-      const key = "preset_" + btn.dataset.preset;
-      const txt = t(key);
-      showPoster(txt);
-    });
-  });
-
-  // Poster size buttons (stop click bubble so the overlay doesn't close)
   if (psSizeDown) psSizeDown.addEventListener("click", (e) => { e.stopPropagation(); bumpPosterScale(-0.1); });
   if (psSizeUp) psSizeUp.addEventListener("click", (e) => { e.stopPropagation(); bumpPosterScale(0.1); });
 
-  // ---------- Notes ----------
-  const ntText = document.getElementById("nt-text");
-  const ntTextMax = document.getElementById("nt-text-max");
+  // ---------- Notes overlay + shared font size (singleton) ----------
   const ntOverlay = document.getElementById("nt-overlay");
-  const ntMaxBtn = document.getElementById("nt-max");
+  const ntTextMax = document.getElementById("nt-text-max");
   const ntMinBtn = document.getElementById("nt-min");
-  const ntClearBtn = document.getElementById("nt-clear");
-  const ntCount = document.getElementById("nt-count");
   const ntCountMax = document.getElementById("nt-count-max");
-  const ntSizeDown = document.getElementById("nt-size-down");
-  const ntSizeUp = document.getElementById("nt-size-up");
-  const ntSizeReadout = document.getElementById("nt-size-readout");
   const ntSizeDownMax = document.getElementById("nt-size-down-max");
   const ntSizeUpMax = document.getElementById("nt-size-up-max");
   const ntSizeReadoutMax = document.getElementById("nt-size-readout-max");
 
-  const NT_KEY = "event-tools-notes-v1";
   const NT_SIZE_KEY = "event-tools-notes-size-v1";
-
-  // Notes font size: 12 → 28 px (step 2)
   let ntFontSize = (function () {
     try {
       const v = parseInt(localStorage.getItem(NT_SIZE_KEY), 10);
@@ -1458,18 +995,24 @@
     } catch (e) {}
     return 14;
   })();
+  // Tracked notes mounts so size changes propagate to all of them
+  const noteMounts = [];
+  let activeNote = null;
+
   function applyNotesSize() {
-    ntText.style.fontSize = ntFontSize + "px";
-    ntTextMax.style.fontSize = ntFontSize + "px";
     const label = ntFontSize + "px";
-    if (ntSizeReadout) ntSizeReadout.textContent = label;
+    if (ntTextMax) ntTextMax.style.fontSize = ntFontSize + "px";
     if (ntSizeReadoutMax) ntSizeReadoutMax.textContent = label;
     const atMin = ntFontSize <= 12;
     const atMax = ntFontSize >= 28;
-    if (ntSizeDown) ntSizeDown.disabled = atMin;
-    if (ntSizeUp) ntSizeUp.disabled = atMax;
     if (ntSizeDownMax) ntSizeDownMax.disabled = atMin;
     if (ntSizeUpMax) ntSizeUpMax.disabled = atMax;
+    noteMounts.forEach(m => {
+      m.textareaEl.style.fontSize = ntFontSize + "px";
+      if (m.sizeReadoutEl) m.sizeReadoutEl.textContent = label;
+      if (m.sizeDownBtn) m.sizeDownBtn.disabled = atMin;
+      if (m.sizeUpBtn) m.sizeUpBtn.disabled = atMax;
+    });
     try { localStorage.setItem(NT_SIZE_KEY, String(ntFontSize)); } catch (e) {}
   }
   function bumpNotesSize(delta) {
@@ -1478,185 +1021,543 @@
     ntFontSize = next;
     applyNotesSize();
   }
-  applyNotesSize();
-  if (ntSizeDown) ntSizeDown.addEventListener("click", () => bumpNotesSize(-2));
-  if (ntSizeUp) ntSizeUp.addEventListener("click", () => bumpNotesSize(2));
-  if (ntSizeDownMax) ntSizeDownMax.addEventListener("click", () => bumpNotesSize(-2));
-  if (ntSizeUpMax) ntSizeUpMax.addEventListener("click", () => bumpNotesSize(2));
-
-
-  function loadNotes() {
-    try { return localStorage.getItem(NT_KEY) || ""; }
-    catch (e) { return ""; }
-  }
-  function saveNotes(v) {
-    try { localStorage.setItem(NT_KEY, v); } catch (e) {}
-  }
-  function syncCount(len) {
-    if (ntCount) ntCount.textContent = String(len);
-    if (ntCountMax) ntCountMax.textContent = String(len);
-  }
-
-  // Restore notes
-  {
-    const initial = loadNotes();
-    ntText.value = initial;
-    ntTextMax.value = initial;
-    syncCount(initial.length);
-  }
-
-  ntText.addEventListener("input", () => {
-    const v = ntText.value;
-    ntTextMax.value = v;
-    syncCount(v.length);
-    saveNotes(v);
-  });
-
-  ntTextMax.addEventListener("input", () => {
-    const v = ntTextMax.value;
-    ntText.value = v;
-    syncCount(v.length);
-    saveNotes(v);
-  });
-
-  function showNotesMax() {
-    ntTextMax.value = ntText.value;
-    syncCount(ntTextMax.value.length);
+  function showNotesMax(mount) {
+    activeNote = mount;
+    if (ntTextMax) ntTextMax.value = mount.textareaEl.value;
+    if (ntCountMax) ntCountMax.textContent = String(mount.textareaEl.value.length);
     ntOverlay.classList.remove("hidden");
     document.body.style.overflow = "hidden";
-    // Focus + move caret to end on next frame so the textarea is fully laid out
     requestAnimationFrame(() => {
+      if (!ntTextMax) return;
       ntTextMax.focus();
       const len = ntTextMax.value.length;
       try { ntTextMax.setSelectionRange(len, len); } catch (e) {}
     });
   }
-
   function hideNotesMax() {
-    ntText.value = ntTextMax.value;
-    syncCount(ntText.value.length);
-    saveNotes(ntText.value);
+    if (activeNote && ntTextMax) {
+      activeNote.textareaEl.value = ntTextMax.value;
+      activeNote.save(ntTextMax.value);
+      if (activeNote.countEl) activeNote.countEl.textContent = String(ntTextMax.value.length);
+    }
     ntOverlay.classList.add("hidden");
     document.body.style.overflow = "";
+    activeNote = null;
+  }
+  if (ntMinBtn) ntMinBtn.addEventListener("click", hideNotesMax);
+  if (ntTextMax) ntTextMax.addEventListener("input", () => {
+    if (!activeNote) return;
+    const v = ntTextMax.value;
+    activeNote.textareaEl.value = v;
+    activeNote.save(v);
+    if (activeNote.countEl) activeNote.countEl.textContent = String(v.length);
+    if (ntCountMax) ntCountMax.textContent = String(v.length);
+  });
+  document.addEventListener("keydown", (e) => {
+    if (ntOverlay && e.key === "Escape" && !ntOverlay.classList.contains("hidden")) hideNotesMax();
+  });
+  if (ntSizeDownMax) ntSizeDownMax.addEventListener("click", () => bumpNotesSize(-2));
+  if (ntSizeUpMax) ntSizeUpMax.addEventListener("click", () => bumpNotesSize(2));
+  applyNotesSize();
+
+  // ---------- Per-tool mount functions ----------
+  const TOOL_TYPES = ["picker", "countdown", "poster", "notes"];
+  const instances = [];
+
+  function mountPicker(section) {
+    const pkMin = section.querySelector('[data-role="pk-min"]');
+    const pkMax = section.querySelector('[data-role="pk-max"]');
+    const pkUnique = section.querySelector('[data-role="pk-unique"]');
+    const pkPick = section.querySelector('[data-role="pk-pick"]');
+    const pkUndo = section.querySelector('[data-role="pk-undo"]');
+    const pkClear = section.querySelector('[data-role="pk-clear"]');
+    const pkNum = section.querySelector('[data-role="pk-num"]');
+    const pkResult = section.querySelector('[data-role="pk-result"]');
+    const pkList = section.querySelector('[data-role="pk-list"]');
+    const pkCount = section.querySelector('[data-role="pk-count"]');
+
+    const history = [];
+    let pkRolling = false;
+
+    function renderPicked() {
+      pkCount.textContent = String(history.length);
+      if (history.length === 0) {
+        pkList.innerHTML = '<span class="picked-empty">' + t("no_picks") + '</span>';
+        pkUndo.disabled = true;
+        return;
+      }
+      pkUndo.disabled = false;
+      const lastIdx = history.length - 1;
+      pkList.innerHTML = history
+        .map((n, i) => '<span class="pick-chip' + (i === lastIdx ? ' latest' : '') + '">' + n + '</span>')
+        .join("");
+    }
+
+    function triggerPickAnim() {
+      pkNum.classList.remove("rolling");
+      pkResult.classList.remove("flash");
+      void pkNum.offsetWidth;
+      pkNum.classList.add("rolling");
+      pkResult.classList.add("flash");
+    }
+
+    function rollAndReveal(finalPick, lo, hi) {
+      if (pkRolling) return;
+      pkRolling = true;
+      pkPick.disabled = true;
+      pkUndo.disabled = true;
+      pkClear.disabled = true;
+      const range = hi - lo + 1;
+      const totalDuration = 1700;
+      const startInterval = 32;
+      const endInterval = 320;
+      const startTime = performance.now();
+      pkNum.classList.remove("rolling", "bump");
+      pkResult.classList.remove("flash");
+      pkNum.classList.add("spinning");
+      function randomOther(exclude) {
+        if (range <= 1) return lo;
+        let n;
+        do { n = Math.floor(Math.random() * range) + lo; } while (n === exclude);
+        return n;
+      }
+      let last = null;
+      function step() {
+        const elapsed = performance.now() - startTime;
+        const progress = Math.min(1, elapsed / totalDuration);
+        if (progress >= 1) {
+          pkNum.classList.remove("spinning", "bump");
+          pkNum.textContent = String(finalPick);
+          void pkNum.offsetWidth;
+          pkNum.classList.add("rolling");
+          pkResult.classList.add("flash");
+          history.push(finalPick);
+          renderPicked();
+          pkRolling = false;
+          pkPick.disabled = false;
+          pkClear.disabled = false;
+          return;
+        }
+        const eased = Math.pow(progress, 4);
+        const interval = startInterval + (endInterval - startInterval) * eased;
+        last = randomOther(last);
+        pkNum.classList.remove("bump");
+        void pkNum.offsetWidth;
+        pkNum.textContent = String(last);
+        pkNum.classList.add("bump");
+        setTimeout(step, interval);
+      }
+      step();
+    }
+
+    pkPick.addEventListener("click", () => {
+      if (pkRolling) return;
+      const min = parseInt(pkMin.value, 10);
+      const max = parseInt(pkMax.value, 10);
+      if (!Number.isFinite(min) || !Number.isFinite(max)) {
+        pkNum.textContent = "?";
+        return;
+      }
+      const lo = Math.min(min, max);
+      const hi = Math.max(min, max);
+      const range = hi - lo + 1;
+      let pick;
+      if (pkUnique.value === "yes") {
+        const used = new Set(history);
+        if (used.size >= range) {
+          pkNum.textContent = "✓";
+          return;
+        }
+        do {
+          pick = Math.floor(Math.random() * range) + lo;
+        } while (used.has(pick));
+      } else {
+        pick = Math.floor(Math.random() * range) + lo;
+      }
+      ensureAudio();
+      rollAndReveal(pick, lo, hi);
+    });
+
+    pkUndo.addEventListener("click", () => {
+      if (pkRolling) return;
+      if (history.length === 0) return;
+      history.pop();
+      if (history.length === 0) {
+        pkNum.textContent = "—";
+        pkNum.classList.remove("rolling", "spinning", "bump");
+        pkResult.classList.remove("flash");
+      } else {
+        pkNum.textContent = String(history[history.length - 1]);
+        pkNum.classList.remove("spinning", "bump");
+        triggerPickAnim();
+      }
+      renderPicked();
+    });
+
+    pkClear.addEventListener("click", () => {
+      if (pkRolling) return;
+      history.length = 0;
+      pkNum.textContent = "—";
+      pkNum.classList.remove("rolling", "spinning", "bump");
+      pkResult.classList.remove("flash");
+      renderPicked();
+    });
+
+    renderPicked();
+
+    return { onLangChange: renderPicked };
   }
 
-  ntMaxBtn.addEventListener("click", showNotesMax);
-  ntMinBtn.addEventListener("click", hideNotesMax);
-  ntClearBtn.addEventListener("click", () => {
-    if (!ntText.value && !ntTextMax.value) return;
-    if (!window.confirm(t("confirm_clear_notes"))) return;
-    ntText.value = "";
-    ntTextMax.value = "";
-    syncCount(0);
-    saveNotes("");
-  });
+  function mountCountdown(section) {
+    const cdTitle = section.querySelector('[data-role="cd-title"]');
+    const cdMinsIn = section.querySelector('[data-role="cd-mins-in"]');
+    const cdSecsIn = section.querySelector('[data-role="cd-secs-in"]');
+    const cdStart = section.querySelector('[data-role="cd-start"]');
+    const cdPause = section.querySelector('[data-role="cd-pause"]');
+    const cdReset = section.querySelector('[data-role="cd-reset"]');
+    const cdOutput = section.querySelector('[data-role="cd-output"]');
+    const cdShowTitle = section.querySelector('[data-role="cd-show-title"]');
+    const cdStatus = section.querySelector('[data-role="cd-status"]');
+    const cdMinsEl = section.querySelector('[data-role="cd-mins"]');
+    const cdSecsEl = section.querySelector('[data-role="cd-secs"]');
 
-  // ESC closes notes overlay (in addition to poster overlay handler above)
-  document.addEventListener("keydown", (e) => {
-    if (e.key === "Escape" && !ntOverlay.classList.contains("hidden")) {
-      hideNotesMax();
+    function pad2(n) { return String(n).padStart(2, "0"); }
+
+    let cdTimer = null;
+    let cdRemaining = 0;
+    let cdEndAt = 0;
+    let cdStarted = false;
+    let cdPaused = false;
+
+    function renderRemaining(ms) {
+      const totalSec = Math.max(0, Math.ceil(ms / 1000));
+      const m = Math.floor(totalSec / 60);
+      const s = totalSec % 60;
+      cdMinsEl.textContent = pad2(m);
+      cdSecsEl.textContent = pad2(s);
+      const lowTime = totalSec <= 10 && totalSec > 0;
+      cdMinsEl.classList.toggle("warning", lowTime);
+      cdSecsEl.classList.toggle("warning", lowTime);
     }
-  });
 
-  // ---------- Modular tools (add / remove) ----------
-  const TOOL_IDS = ["picker", "countdown", "poster", "notes"];
-  const TOOL_SECTION_MAP = {
-    picker: "section-picker",
-    countdown: "section-countdown",
-    poster: "section-poster",
-    notes: "section-notes",
-  };
-  const ACTIVE_TOOLS_KEY = "event-tools-active-v1";
+    function tickCountdown() {
+      const now = Date.now();
+      const diff = cdEndAt - now;
+      if (diff <= 0) {
+        renderRemaining(0);
+        cdStatus.textContent = t("its_time");
+        cdStatus.classList.add("done");
+        clearInterval(cdTimer);
+        cdTimer = null;
+        cdPause.disabled = true;
+        cdRemaining = 0;
+        playBeepSequence();
+        return;
+      }
+      renderRemaining(diff);
+    }
 
-  let activeTools = (function () {
+    cdStart.addEventListener("click", () => {
+      ensureAudio();
+      const mins = parseInt(cdMinsIn.value, 10) || 0;
+      const secs = parseInt(cdSecsIn.value, 10) || 0;
+      const totalMs = (mins * 60 + secs) * 1000;
+      if (totalMs <= 0) {
+        cdOutput.classList.remove("hidden");
+        cdStatus.classList.remove("done");
+        cdStatus.textContent = t("pick_time");
+        return;
+      }
+      cdRemaining = totalMs;
+      cdEndAt = Date.now() + totalMs;
+      cdStarted = true;
+      cdPaused = false;
+      cdShowTitle.textContent = cdTitle.value.trim() || t("default_event");
+      cdStatus.classList.remove("done");
+      cdStatus.textContent = "";
+      cdOutput.classList.remove("hidden");
+      renderRemaining(totalMs);
+      if (cdTimer) clearInterval(cdTimer);
+      cdTimer = setInterval(tickCountdown, 250);
+      cdPause.disabled = false;
+      cdPause.textContent = t("pause_btn");
+    });
+
+    cdPause.addEventListener("click", () => {
+      if (!cdStarted) return;
+      if (cdTimer) {
+        clearInterval(cdTimer);
+        cdTimer = null;
+        cdRemaining = Math.max(0, cdEndAt - Date.now());
+        cdPaused = true;
+        cdPause.textContent = t("resume_btn");
+      } else if (cdRemaining > 0) {
+        cdEndAt = Date.now() + cdRemaining;
+        cdTimer = setInterval(tickCountdown, 250);
+        cdPaused = false;
+        cdPause.textContent = t("pause_btn");
+      }
+    });
+
+    cdReset.addEventListener("click", () => {
+      if (cdTimer) { clearInterval(cdTimer); cdTimer = null; }
+      cdStarted = false;
+      cdPaused = false;
+      cdRemaining = 0;
+      cdEndAt = 0;
+      cdOutput.classList.add("hidden");
+      cdStatus.classList.remove("done");
+      cdStatus.textContent = "";
+      cdMinsEl.classList.remove("warning");
+      cdSecsEl.classList.remove("warning");
+      cdPause.disabled = true;
+      cdPause.textContent = t("pause_btn");
+    });
+
+    return {
+      onLangChange() {
+        if (cdPaused && cdTimer === null && cdRemaining > 0 && cdStarted) {
+          cdPause.textContent = t("resume_btn");
+        } else {
+          cdPause.textContent = t("pause_btn");
+        }
+        if (cdStarted) {
+          cdShowTitle.textContent = cdTitle.value.trim() || t("default_event");
+          if (cdStatus.classList.contains("done")) cdStatus.textContent = t("its_time");
+        }
+      },
+      cleanup() { if (cdTimer) { clearInterval(cdTimer); cdTimer = null; } }
+    };
+  }
+
+  function mountPoster(section) {
+    const psText = section.querySelector('[data-role="ps-text"]');
+    const psShow = section.querySelector('[data-role="ps-show"]');
+    psShow.addEventListener("click", () => showPoster(psText.value));
+    psText.addEventListener("keydown", (e) => {
+      if (e.key === "Enter") {
+        e.preventDefault();
+        showPoster(psText.value);
+      }
+    });
+    section.querySelectorAll(".preset-btn").forEach((btn) => {
+      btn.addEventListener("click", () => {
+        const key = "preset_" + btn.dataset.preset;
+        showPoster(t(key));
+      });
+    });
+    return {};
+  }
+
+  function mountNotes(section, iid) {
+    const ntText = section.querySelector('[data-role="nt-text"]');
+    const ntCount = section.querySelector('[data-role="nt-count"]');
+    const ntMaxBtn = section.querySelector('[data-role="nt-max"]');
+    const ntClearBtn = section.querySelector('[data-role="nt-clear"]');
+    const ntSizeDown = section.querySelector('[data-role="nt-size-down"]');
+    const ntSizeUp = section.querySelector('[data-role="nt-size-up"]');
+    const ntSizeReadout = section.querySelector('[data-role="nt-size-readout"]');
+
+    const NT_KEY = "event-tools-notes-content-" + iid;
+    function loadNotes() {
+      try { return localStorage.getItem(NT_KEY) || ""; }
+      catch (e) { return ""; }
+    }
+    function saveNotes(v) {
+      try { localStorage.setItem(NT_KEY, v); } catch (e) {}
+    }
+    // One-time migration: copy v1 singleton key to first notes instance that has no content.
+    let initial = loadNotes();
+    if (!initial) {
+      try {
+        const legacy = localStorage.getItem("event-tools-notes-v1");
+        if (legacy && !localStorage.getItem("event-tools-notes-v1-migrated")) {
+          initial = legacy;
+          saveNotes(legacy);
+          localStorage.setItem("event-tools-notes-v1-migrated", "1");
+        }
+      } catch (e) {}
+    }
+    ntText.value = initial;
+    ntCount.textContent = String(initial.length);
+
+    ntText.addEventListener("input", () => {
+      const v = ntText.value;
+      ntCount.textContent = String(v.length);
+      saveNotes(v);
+      // If this instance is the active maximized one, mirror to overlay
+      if (activeNote && activeNote.iid === iid && ntTextMax) {
+        ntTextMax.value = v;
+        if (ntCountMax) ntCountMax.textContent = String(v.length);
+      }
+    });
+
+    const mountObj = {
+      iid: iid,
+      textareaEl: ntText,
+      countEl: ntCount,
+      sizeReadoutEl: ntSizeReadout,
+      sizeDownBtn: ntSizeDown,
+      sizeUpBtn: ntSizeUp,
+      save: saveNotes,
+    };
+    noteMounts.push(mountObj);
+
+    ntMaxBtn.addEventListener("click", () => showNotesMax(mountObj));
+    ntClearBtn.addEventListener("click", () => {
+      if (!ntText.value) return;
+      if (!window.confirm(t("confirm_clear_notes"))) return;
+      ntText.value = "";
+      ntCount.textContent = "0";
+      saveNotes("");
+      if (activeNote && activeNote.iid === iid && ntTextMax) {
+        ntTextMax.value = "";
+        if (ntCountMax) ntCountMax.textContent = "0";
+      }
+    });
+    if (ntSizeDown) ntSizeDown.addEventListener("click", () => bumpNotesSize(-2));
+    if (ntSizeUp) ntSizeUp.addEventListener("click", () => bumpNotesSize(2));
+
+    // Apply current size to this instance immediately
+    ntText.style.fontSize = ntFontSize + "px";
+    if (ntSizeReadout) ntSizeReadout.textContent = ntFontSize + "px";
+    if (ntSizeDown) ntSizeDown.disabled = ntFontSize <= 12;
+    if (ntSizeUp) ntSizeUp.disabled = ntFontSize >= 28;
+
+    return {
+      cleanup() {
+        const i = noteMounts.indexOf(mountObj);
+        if (i >= 0) noteMounts.splice(i, 1);
+        if (activeNote === mountObj) {
+          ntOverlay.classList.add("hidden");
+          document.body.style.overflow = "";
+          activeNote = null;
+        }
+      }
+    };
+  }
+
+  // ---------- Tool manager ----------
+  const ACTIVE_KEY = "event-tools-instances-v2";
+  let nextIid = 1;
+
+  function loadActiveInstances() {
     try {
-      const raw = localStorage.getItem(ACTIVE_TOOLS_KEY);
+      const raw = localStorage.getItem(ACTIVE_KEY);
       if (raw) {
         const arr = JSON.parse(raw);
         if (Array.isArray(arr)) {
-          const filtered = arr.filter((id) => TOOL_IDS.includes(id));
-          return filtered;
+          const valid = arr.filter(x => x && typeof x.iid === "number" && TOOL_TYPES.includes(x.type));
+          if (valid.length > 0) {
+            nextIid = Math.max.apply(null, valid.map(x => x.iid)) + 1;
+            return valid;
+          }
+        }
+      }
+      // Migrate from v1
+      const v1 = localStorage.getItem("event-tools-active-v1");
+      if (v1) {
+        const arr = JSON.parse(v1);
+        if (Array.isArray(arr)) {
+          const valid = arr.filter(t => TOOL_TYPES.includes(t));
+          if (valid.length > 0) {
+            const migrated = valid.map(tt => ({ iid: nextIid++, type: tt }));
+            return migrated;
+          }
         }
       }
     } catch (e) {}
-    // Default for first-time visitors: just the number picker
-    return ["picker"];
-  })();
-
-  const addToolBtn = document.getElementById("add-tool-btn");
-  const addToolMenu = document.getElementById("add-tool-menu");
-  const addToolEmpty = document.getElementById("add-tool-empty");
-
-  function persistActiveTools() {
-    try { localStorage.setItem(ACTIVE_TOOLS_KEY, JSON.stringify(activeTools)); }
-    catch (e) {}
+    return [{ iid: nextIid++, type: "picker" }];
   }
 
-  function applyToolVisibility() {
-    TOOL_IDS.forEach((id) => {
-      const section = document.getElementById(TOOL_SECTION_MAP[id]);
-      if (!section) return;
-      section.classList.toggle("tool-hidden", !activeTools.includes(id));
-    });
-    document.querySelectorAll("[data-add-tool]").forEach((btn) => {
-      btn.disabled = activeTools.includes(btn.dataset.addTool);
-    });
-    if (addToolEmpty) {
-      addToolEmpty.classList.toggle("hidden", activeTools.length > 0);
+  let activeInstances = loadActiveInstances();
+
+  function persistActiveInstances() {
+    try { localStorage.setItem(ACTIVE_KEY, JSON.stringify(activeInstances)); } catch (e) {}
+  }
+
+  const toolsHost = document.getElementById("tools-host");
+  const addToolEmpty = document.getElementById("add-tool-empty");
+  const addToolBtn = document.getElementById("add-tool-btn");
+  const addToolMenu = document.getElementById("add-tool-menu");
+
+  function refreshEmptyHint() {
+    if (addToolEmpty) addToolEmpty.classList.toggle("hidden", activeInstances.length > 0);
+  }
+
+  function mountInstance(inst, scrollTo) {
+    const tpl = document.getElementById("tpl-" + inst.type);
+    if (!tpl) return null;
+    const section = tpl.content.firstElementChild.cloneNode(true);
+    section.dataset.iid = String(inst.iid);
+    toolsHost.appendChild(section);
+    let api = {};
+    if (inst.type === "picker") api = mountPicker(section) || {};
+    else if (inst.type === "countdown") api = mountCountdown(section) || {};
+    else if (inst.type === "poster") api = mountPoster(section) || {};
+    else if (inst.type === "notes") api = mountNotes(section, inst.iid) || {};
+    api.section = section;
+    api.iid = inst.iid;
+    api.type = inst.type;
+    instances.push(api);
+    const removeBtn = section.querySelector(".tool-remove");
+    if (removeBtn) removeBtn.addEventListener("click", () => removeInstance(inst.iid));
+    applyLangToTree(section);
+    if (scrollTo) {
+      requestAnimationFrame(() => {
+        section.scrollIntoView({ behavior: "smooth", block: "start" });
+      });
     }
+    return api;
+  }
+
+  function unmountInstance(iid) {
+    const idx = instances.findIndex(i => i.iid === iid);
+    if (idx < 0) return;
+    const inst = instances[idx];
+    if (inst.cleanup) inst.cleanup();
+    if (inst.section && inst.section.parentNode) inst.section.parentNode.removeChild(inst.section);
+    instances.splice(idx, 1);
+  }
+
+  function addInstance(type) {
+    if (!TOOL_TYPES.includes(type)) return;
+    const iid = nextIid++;
+    activeInstances.push({ iid: iid, type: type });
+    persistActiveInstances();
+    mountInstance({ iid: iid, type: type }, true);
+    refreshEmptyHint();
+    closeAddMenu();
+  }
+
+  function removeInstance(iid) {
+    activeInstances = activeInstances.filter(i => i.iid !== iid);
+    persistActiveInstances();
+    unmountInstance(iid);
+    refreshEmptyHint();
   }
 
   function closeAddMenu() {
     if (addToolMenu) addToolMenu.classList.add("hidden");
   }
-
-  function addTool(id) {
-    if (!TOOL_IDS.includes(id)) return;
-    if (activeTools.includes(id)) return;
-    activeTools.push(id);
-    // Keep canonical order regardless of add sequence
-    activeTools.sort((a, b) => TOOL_IDS.indexOf(a) - TOOL_IDS.indexOf(b));
-    persistActiveTools();
-    applyToolVisibility();
-    closeAddMenu();
-    requestAnimationFrame(() => {
-      const section = document.getElementById(TOOL_SECTION_MAP[id]);
-      if (section) section.scrollIntoView({ behavior: "smooth", block: "start" });
-    });
-  }
-
-  function removeTool(id) {
-    activeTools = activeTools.filter((x) => x !== id);
-    persistActiveTools();
-    applyToolVisibility();
-  }
-
-  document.querySelectorAll(".tool-remove").forEach((btn) => {
-    btn.addEventListener("click", () => removeTool(btn.dataset.toolRemove));
+  if (addToolBtn) addToolBtn.addEventListener("click", (e) => {
+    e.stopPropagation();
+    if (addToolMenu) addToolMenu.classList.toggle("hidden");
   });
-
-  if (addToolBtn) {
-    addToolBtn.addEventListener("click", (e) => {
-      e.stopPropagation();
-      if (addToolMenu) addToolMenu.classList.toggle("hidden");
-    });
-  }
-  if (addToolMenu) {
-    addToolMenu.addEventListener("click", (e) => e.stopPropagation());
-  }
+  if (addToolMenu) addToolMenu.addEventListener("click", (e) => e.stopPropagation());
   document.addEventListener("click", () => {
     if (addToolMenu && !addToolMenu.classList.contains("hidden")) closeAddMenu();
   });
   document.addEventListener("keydown", (e) => {
-    if (e.key === "Escape" && addToolMenu && !addToolMenu.classList.contains("hidden")) {
-      closeAddMenu();
-    }
+    if (e.key === "Escape" && addToolMenu && !addToolMenu.classList.contains("hidden")) closeAddMenu();
   });
   document.querySelectorAll("[data-add-tool]").forEach((btn) => {
-    btn.addEventListener("click", () => addTool(btn.dataset.addTool));
+    btn.addEventListener("click", () => addInstance(btn.dataset.addTool));
   });
 
-  applyToolVisibility();
+  // Mount initial instances
+  activeInstances.forEach(inst => mountInstance(inst, false));
+  refreshEmptyHint();
 
   // Detect default language from browser
   try {
@@ -1666,5 +1567,136 @@
   } catch (e) { applyLanguage("en"); }
 })();
 </script>
+
+  <template id="tpl-picker"><section class="section" data-tool="picker">
+      <div class="section-head">
+        <h2 data-i18n="picker_heading">Number Picker</h2>
+        <p class="sub" data-i18n="picker_sub">Random pick in a range.</p>
+        <button class="tool-remove" type="button" data-i18n-title="remove_tool_title" title="Remove">×</button>
+      </div>
+
+      <div class="row">
+        <div>
+          <label for="pk-min" data-i18n="min">Minimum</label>
+          <input id="pk-min" data-role="pk-min" type="number" value="1" />
+        </div>
+        <div>
+          <label for="pk-max" data-i18n="max">Maximum</label>
+          <input id="pk-max" data-role="pk-max" type="number" value="100" />
+        </div>
+        <div>
+          <label for="pk-unique" data-i18n="unique_label">Repeats</label>
+          <select id="pk-unique" data-role="pk-unique">
+            <option value="no" data-i18n="allow_repeats">Allow repeats</option>
+            <option value="yes" data-i18n="no_repeats">No repeats</option>
+          </select>
+        </div>
+      </div>
+
+      <div class="actions">
+        <button class="btn btn-primary" id="pk-pick" data-role="pk-pick" data-i18n="pick_btn">Pick a number</button>
+        <button class="btn btn-ghost" id="pk-undo" data-role="pk-undo" data-i18n="undo_btn" disabled>Undo</button>
+        <button class="btn btn-ghost" id="pk-clear" data-role="pk-clear" data-i18n="clear_btn">Clear all</button>
+      </div>
+
+      <div class="picker-result" id="pk-result" data-role="pk-result">
+        <div class="picker-num" id="pk-num" data-role="pk-num">&mdash;</div>
+      </div>
+
+      <div class="picked-block">
+        <div class="picked-head">
+          <h3 data-i18n="picked_heading">Picked so far</h3>
+          <span class="picked-count" id="pk-count" data-role="pk-count">0</span>
+        </div>
+        <div class="picked-list" id="pk-list" data-role="pk-list">
+          <span class="picked-empty" data-i18n="no_picks">No picks yet.</span>
+        </div>
+      </div>
+    </section></template>
+  <template id="tpl-countdown"><section class="section" data-tool="countdown">
+      <div class="section-head">
+        <h2 data-i18n="cd_heading">Countdown</h2>
+        <p class="sub" data-i18n="cd_sub">Short activity timer.</p>
+        <button class="tool-remove" type="button" data-i18n-title="remove_tool_title" title="Remove">×</button>
+      </div>
+
+      <div class="row">
+        <div style="flex: 2">
+          <label for="cd-title" data-i18n="event_title_label">Activity name</label>
+          <input id="cd-title" data-role="cd-title" type="text" data-i18n-placeholder="event_title_ph" placeholder="e.g. Icebreaker round" />
+        </div>
+        <div>
+          <label for="cd-mins-in" data-i18n="mins_label">Minutes</label>
+          <input id="cd-mins-in" data-role="cd-mins-in" type="number" min="0" max="59" value="5" />
+        </div>
+        <div>
+          <label for="cd-secs-in" data-i18n="secs_label">Seconds</label>
+          <input id="cd-secs-in" data-role="cd-secs-in" type="number" min="0" max="59" value="0" />
+        </div>
+      </div>
+
+      <div class="actions">
+        <button class="btn btn-primary" id="cd-start" data-role="cd-start" data-i18n="start_btn">Start</button>
+        <button class="btn btn-ghost" id="cd-pause" data-role="cd-pause" data-i18n="pause_btn" disabled>Pause</button>
+        <button class="btn btn-ghost" id="cd-reset" data-role="cd-reset" data-i18n="reset_btn">Reset</button>
+      </div>
+
+      <div id="cd-output" data-role="cd-output" class="hidden">
+        <div class="countdown-display">
+          <div class="cd-cell"><div class="cd-num" id="cd-mins" data-role="cd-mins">05</div><div class="cd-label" data-i18n="minutes">Minutes</div></div>
+          <div class="cd-cell"><div class="cd-num" id="cd-secs" data-role="cd-secs">00</div><div class="cd-label" data-i18n="seconds">Seconds</div></div>
+        </div>
+        <div class="event-title"><span data-i18n="counting_to">Running:</span> <strong id="cd-show-title" data-role="cd-show-title" data-i18n="default_event">your activity</strong></div>
+        <div class="cd-status" id="cd-status" data-role="cd-status"></div>
+      </div>
+    </section></template>
+  <template id="tpl-poster"><section class="section" data-tool="poster">
+      <div class="section-head">
+        <h2 data-i18n="poster_heading">Poster</h2>
+        <p class="sub" data-i18n="poster_sub">Big text on screen.</p>
+        <button class="tool-remove" type="button" data-i18n-title="remove_tool_title" title="Remove">×</button>
+      </div>
+
+      <div>
+        <label for="ps-text" data-i18n="poster_label">Text</label>
+        <input id="ps-text" data-role="ps-text" type="text" data-i18n-placeholder="poster_ph" placeholder="e.g. Break Time" maxlength="60" />
+      </div>
+
+      <div class="poster-presets">
+        <button class="btn btn-ghost preset-btn" data-preset="break" data-i18n="preset_break">Break Time</button>
+        <button class="btn btn-ghost preset-btn" data-preset="qa" data-i18n="preset_qa">Q &amp; A</button>
+        <button class="btn btn-ghost preset-btn" data-preset="discussion" data-i18n="preset_discussion">Discussion</button>
+        <button class="btn btn-ghost preset-btn" data-preset="welcome" data-i18n="preset_welcome">Welcome</button>
+        <button class="btn btn-ghost preset-btn" data-preset="brb" data-i18n="preset_brb">Be Right Back</button>
+      </div>
+
+      <div class="actions">
+        <button class="btn btn-primary" id="ps-show" data-role="ps-show" data-i18n="show_btn">Show</button>
+      </div>
+    </section></template>
+  <template id="tpl-notes"><section class="section" data-tool="notes">
+      <div class="section-head">
+        <h2 data-i18n="notes_heading">Notes</h2>
+        <p class="sub" data-i18n="notes_sub">Scratch pad for the event.</p>
+        <button class="tool-remove" type="button" data-i18n-title="remove_tool_title" title="Remove">×</button>
+      </div>
+
+      <textarea id="nt-text" data-role="nt-text" class="notes-textarea" rows="8" data-i18n-placeholder="notes_ph" placeholder="Type your notes here…"></textarea>
+
+      <div class="notes-meta">
+        <span><span id="nt-count" data-role="nt-count">0</span> <span data-i18n="chars">characters</span></span>
+        <div class="size-ctrl" aria-label="Font size">
+          <button class="size-btn" id="nt-size-down" data-role="nt-size-down" type="button" title="Smaller">A−</button>
+          <span class="size-readout" id="nt-size-readout" data-role="nt-size-readout">14px</span>
+          <button class="size-btn" id="nt-size-up" data-role="nt-size-up" type="button" title="Larger">A+</button>
+        </div>
+        <span class="notes-saved" id="nt-saved" data-i18n="saved_locally">Saved on this device</span>
+      </div>
+
+      <div class="actions">
+        <button class="btn btn-primary" id="nt-max" data-role="nt-max" data-i18n="maximize_btn">Maximize</button>
+        <button class="btn btn-ghost" id="nt-clear" data-role="nt-clear" data-i18n="notes_clear_btn">Clear</button>
+      </div>
+    </section></template>
 </body>
 </html>
